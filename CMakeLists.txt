@@ -17,10 +17,16 @@ configure_file ( ${CMAKE_CURRENT_LIST_DIR}/Makefile-${STATICLIB_TOOLCHAIN}
 add_custom_target( ${PROJECT_NAME}_build
         COMMAND ${CMAKE_MAKE_PROGRAM} -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
 add_library( ssl STATIC IMPORTED GLOBAL )
-set_target_properties( ssl PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/openssl/libssl${CMAKE_STATIC_LIBRARY_SUFFIX} )
 add_library( crypto STATIC IMPORTED GLOBAL )
-set_target_properties( crypto PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/openssl/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX} )
-set ( ${PROJECT_NAME}_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/openssl/include )
+if ( STATICLIB_TOOLCHAIN MATCHES "windows_(amd64|i386)_msvc" )
+    set_target_properties( ssl PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/openssl/out32/ssleay32${CMAKE_STATIC_LIBRARY_SUFFIX} )
+    set_target_properties( crypto PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/openssl/out32/libeay32${CMAKE_STATIC_LIBRARY_SUFFIX} )
+    set ( ${PROJECT_NAME}_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/openssl/inc32 )
+elseif ( )
+    set_target_properties( ssl PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/openssl/libssl${CMAKE_STATIC_LIBRARY_SUFFIX} )
+    set_target_properties( crypto PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/openssl/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX} )
+    set ( ${PROJECT_NAME}_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/openssl/include )
+endif ( )
 
 # tests
 enable_testing ( )
