@@ -1,5 +1,4 @@
 
-# todo
 all:
 	@if exist "${CMAKE_CURRENT_BINARY_DIR}/openssl" echo "flag" > "${CMAKE_CURRENT_BINARY_DIR}/openssl_exists.flag"
 	@if exist "${CMAKE_CURRENT_BINARY_DIR}/openssl_exists.flag" echo "[${CMAKE_CURRENT_BINARY_DIR}/openssl] directory found, skipping build"

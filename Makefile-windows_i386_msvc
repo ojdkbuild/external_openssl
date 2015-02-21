@@ -1,10 +1,9 @@
 
-# todo
 all:
 	@if exist "${CMAKE_CURRENT_BINARY_DIR}/openssl" echo "flag" > "${CMAKE_CURRENT_BINARY_DIR}/openssl_exists.flag"
 	@if exist "${CMAKE_CURRENT_BINARY_DIR}/openssl_exists.flag" echo "[${CMAKE_CURRENT_BINARY_DIR}/openssl] directory found, skipping build"
 	@if not exist "${CMAKE_CURRENT_BINARY_DIR}/openssl_exists.flag" xcopy /s /i /q "${CMAKE_CURRENT_LIST_DIR}/openssl" "${CMAKE_CURRENT_BINARY_DIR}/openssl"
-	# http://rt.openssl.org/Ticket/Display.html?id=3650&user=guest&pass=guest
+# http://rt.openssl.org/Ticket/Display.html?id=3650&user=guest&pass=guest
 	@if not exist "${CMAKE_CURRENT_BINARY_DIR}/openssl_exists.flag" pushd "${CMAKE_CURRENT_BINARY_DIR}/openssl" & perl Configure VC-WIN32 no-asm & popd
 	@if not exist "${CMAKE_CURRENT_BINARY_DIR}/openssl_exists.flag" pushd "${CMAKE_CURRENT_BINARY_DIR}/openssl" & ms\do_ms & popd
 	@if not exist "${CMAKE_CURRENT_BINARY_DIR}/openssl_exists.flag" pushd "${CMAKE_CURRENT_BINARY_DIR}/openssl" & nmake /nologo -f ms\nt.mak & popd
