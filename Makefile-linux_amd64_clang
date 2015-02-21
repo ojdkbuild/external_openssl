@@ -6,8 +6,9 @@ ifeq ($(wildcard ${CMAKE_CURRENT_BINARY_DIR}/openssl),)
 	cp -a ${CMAKE_CURRENT_LIST_DIR}/openssl ${CMAKE_CURRENT_BINARY_DIR}/openssl
 	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(SH) ./Configure linux-x86_64-clang
 	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(MAKE)
-	cp ${CMAKE_CURRENT_BINARY_DIR}/openssl/libcrypto.a ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcrypto.a )
-	cp ${CMAKE_CURRENT_BINARY_DIR}/openssl/libssl.a ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl.a )
+	mkdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+	cp ${CMAKE_CURRENT_BINARY_DIR}/openssl/libcrypto.a ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcrypto.a	
+	cp ${CMAKE_CURRENT_BINARY_DIR}/openssl/libssl.a ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl.a
 else
 	@echo "[${CMAKE_CURRENT_BINARY_DIR}/openssl] directory found, skipping build"
 endif		
