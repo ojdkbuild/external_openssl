@@ -13,6 +13,9 @@ export CFLAGS := -fPIC
 all:
 ifeq ($(wildcard ${CMAKE_CURRENT_BINARY_DIR}/openssl),)	
 	cp -a ${CMAKE_CURRENT_LIST_DIR}/openssl ${CMAKE_CURRENT_BINARY_DIR}/openssl
+# http://wiki.openssl.org/index.php/Compilation_and_Installation#Modifying_Build_Settings	
+	perl -i -p -e 's#^"linux-armv4",\s*"gcc:-DTERMIO -O3#"linux-armv4", "gcc:-DTERMIO ${${PROJECT_NAME}_CFLAGS}#g' ${CMAKE_CURRENT_BINARY_DIR}/openssl/Configure
+	perl -i -p -e 's#^install: all install_docs install_sw#install: all install_sw#g' ${CMAKE_CURRENT_BINARY_DIR}/openssl/Makefile.org	
 	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(SH) ./Configure \
 		linux-armv4 \
 		shared \
