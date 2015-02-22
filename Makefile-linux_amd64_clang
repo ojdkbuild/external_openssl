@@ -1,9 +1,10 @@
 
-export CFLAGS := -fPIC
-
 all:
 ifeq ($(wildcard ${CMAKE_CURRENT_BINARY_DIR}/openssl),)	
 	cp -a ${CMAKE_CURRENT_LIST_DIR}/openssl ${CMAKE_CURRENT_BINARY_DIR}/openssl
+# http://wiki.openssl.org/index.php/Compilation_and_Installation#Modifying_Build_Settings	
+	LC_ALL=C sed -i~ 's/^"linux-x86_64-clang",	"clang: -m64 -DL_ENDIAN -DTERMIO -O3/"linux-x86_64-clang",	"clang: -m64 -DL_ENDIAN -DTERMIO ${${PROJECT_NAME}_CFLAGS}/' ${CMAKE_CURRENT_BINARY_DIR}/openssl/Configure
+	LC_ALL=C sed -i~ 's/^install: all install_docs install_sw/install: all install_sw/' ${CMAKE_CURRENT_BINARY_DIR}/openssl/Makefile.org
 	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(SH) ./Configure \
 		linux-x86_64-clang \
 		shared \

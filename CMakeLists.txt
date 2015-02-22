@@ -11,6 +11,13 @@ project ( external_openssl CXX C )
 # common include
 include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/CMakeLists_common.cmake )
 
+# variabled for makefiles
+if ( CMAKE_BUILD_TYPE MATCHES "Debug" )
+    set ( ${PROJECT_NAME}_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG}" )
+endif ( )
+if ( CMAKE_BUILD_TYPE MATCHES "Release" )
+    set ( ${PROJECT_NAME}_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}" )
+endif ( )
 # library config
 configure_file ( ${CMAKE_CURRENT_LIST_DIR}/Makefile-${STATICLIB_TOOLCHAIN}
         ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
