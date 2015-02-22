@@ -4,7 +4,10 @@ export CFLAGS := -fPIC
 all:
 ifeq ($(wildcard ${CMAKE_CURRENT_BINARY_DIR}/openssl),)	
 	cp -a ${CMAKE_CURRENT_LIST_DIR}/openssl ${CMAKE_CURRENT_BINARY_DIR}/openssl
-	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(SH) ./Configure linux-x86_64
+	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(SH) ./Configure \
+		linux-x86_64 \
+		shared \
+		--openssldir=${CMAKE_CURRENT_BINARY_DIR}/openssl_install
 	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(MAKE)
 	mkdir -p ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 	cp ${CMAKE_CURRENT_BINARY_DIR}/openssl/libcrypto.a ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcrypto.a
