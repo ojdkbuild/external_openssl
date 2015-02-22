@@ -17,12 +17,12 @@ configure_file ( ${CMAKE_CURRENT_LIST_DIR}/Makefile-${STATICLIB_TOOLCHAIN}
 add_custom_target( ${PROJECT_NAME}_build
         COMMAND ${CMAKE_MAKE_PROGRAM} -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
 
-add_library( ${PROJECT_NAME}_crypto STATIC IMPORTED GLOBAL )
-add_dependencies( ${PROJECT_NAME}_crypto ${PROJECT_NAME}_build )
+add_library( ${PROJECT_NAME} STATIC IMPORTED GLOBAL )
+add_dependencies( ${PROJECT_NAME} ${PROJECT_NAME}_build )
 add_library( ${PROJECT_NAME}_ssl STATIC IMPORTED GLOBAL )
 add_dependencies( ${PROJECT_NAME}_ssl ${PROJECT_NAME}_build )
 set_target_properties( ${PROJECT_NAME}_ssl PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX} )
-set_target_properties( ${PROJECT_NAME}_crypto PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl${CMAKE_STATIC_LIBRARY_SUFFIX} )
+set_target_properties( ${PROJECT_NAME} PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl${CMAKE_STATIC_LIBRARY_SUFFIX} )
 set ( ${PROJECT_NAME}_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/openssl/include )
 
 # tests
@@ -30,7 +30,7 @@ enable_testing ( )
 set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_INCLUDES} )
 add_executable ( openssl_test ${CMAKE_CURRENT_LIST_DIR}/test/openssl_test.cpp )
 target_include_directories ( openssl_test BEFORE PRIVATE ${${PROJECT_NAME}_INCLUDES} )
-target_link_libraries ( openssl_test ${PROJECT_NAME}_crypto ${PROJECT_NAME}_ssl )
+target_link_libraries ( openssl_test ${PROJECT_NAME} ${PROJECT_NAME}_ssl )
 add_test ( openssl_test ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/openssl_test )
 
 # headers export
