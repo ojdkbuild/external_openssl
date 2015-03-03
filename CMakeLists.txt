@@ -8,15 +8,22 @@ set ( CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/cmake/toolchains/${STATICLI
 
 # project setup
 project ( external_openssl CXX C )
+set ( external_openssl_VERSION 1.0.2 )
 # common include
 include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/CMakeLists_common.cmake )
 
-# variabled for makefiles
+# compile definitions
+set ( ${PROJECT_NAME}_CFLAGS ${CMAKE_C_FLAGS} )
+if ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_(clang|gcc)" )
+    set ( ${PROJECT_NAME}_CFLAGS "${${PROJECT_NAME}_CFLAGS} -Wno-empty-translation-unit -Wno-gnu-statement-expression -Wno-shadow" )
+endif ( )
+
+# variables for makefiles
 if ( CMAKE_BUILD_TYPE MATCHES "Debug" )
-    set ( ${PROJECT_NAME}_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG}" )
+    set ( ${PROJECT_NAME}_CFLAGS "${${PROJECT_NAME}_CFLAGS} ${CMAKE_C_FLAGS_DEBUG}" )
 endif ( )
 if ( CMAKE_BUILD_TYPE MATCHES "Release" )
-    set ( ${PROJECT_NAME}_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}" )
+    set ( ${PROJECT_NAME}_CFLAGS "${${PROJECT_NAME}_CFLAGS} ${CMAKE_C_FLAGS_RELEASE}" )
 endif ( )
 # library config
 configure_file ( ${CMAKE_CURRENT_LIST_DIR}/Makefile-${STATICLIB_TOOLCHAIN}
