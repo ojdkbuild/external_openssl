@@ -8,14 +8,16 @@ set ( CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/cmake/toolchains/${STATICLI
 
 # project setup
 project ( external_openssl CXX C )
-set ( external_openssl_VERSION 1.0.2 )
+set ( external_openssl_VERSION 1.0.2 CACHE INTERNAL "" )
 # common include
 include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/CMakeLists_common.cmake )
 
 # compile definitions
 set ( ${PROJECT_NAME}_CFLAGS ${CMAKE_C_FLAGS} )
-if ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_(clang|gcc)" )
+if ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_clang" )
     set ( ${PROJECT_NAME}_CFLAGS "${${PROJECT_NAME}_CFLAGS} -Wno-empty-translation-unit -Wno-gnu-statement-expression -Wno-shadow" )
+elseif ( STATICLIB_TOOLCHAIN MATCHES "[^_]+_[^_]+_gcc" )
+    set ( ${PROJECT_NAME}_CFLAGS "${${PROJECT_NAME}_CFLAGS} -Wno-maybe-uninitialized" )
 endif ( )
 
 # variables for makefiles
