@@ -10,6 +10,8 @@ set ( CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/cmake/toolchains/${STATICLI
 project ( external_openssl CXX C )
 # common include
 include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/staticlibs_common.cmake )
+# options, use SET ( OPTNAME ON CACHE BOOL "") to override
+option ( STATICLIB_OPENSSL_SHARED "Use 'shared' or 'no-shared' OpenSSL flag" OFF )
 
 # compile definitions
 set ( ${PROJECT_NAME}_CFLAGS ${CMAKE_C_FLAGS} )
@@ -25,6 +27,11 @@ if ( CMAKE_BUILD_TYPE MATCHES "Debug" )
 endif ( )
 if ( CMAKE_BUILD_TYPE MATCHES "Release" )
     set ( ${PROJECT_NAME}_CFLAGS "${${PROJECT_NAME}_CFLAGS} ${CMAKE_C_FLAGS_RELEASE}" )
+endif ( )
+if ( STATICLIB_OPENSSL_SHARED )
+    set ( ${PROJECT_NAME}_SHARED "shared" )
+else ( )
+    set ( ${PROJECT_NAME}_SHARED "no-dso" )
 endif ( )
 # library config
 configure_file ( ${CMAKE_CURRENT_LIST_DIR}/Makefile-${STATICLIB_TOOLCHAIN}

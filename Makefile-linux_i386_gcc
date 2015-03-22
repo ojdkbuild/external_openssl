@@ -9,7 +9,7 @@ ifeq ($(wildcard ${CMAKE_CURRENT_BINARY_DIR}/openssl),)
 	perl -i -p -e 's#^install: all install_docs install_sw#install: all install_sw#g' ${CMAKE_CURRENT_BINARY_DIR}/openssl/Makefile.org		
 	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(SH) ./Configure \
 		linux-generic32 \
-		shared \
+		${${PROJECT_NAME}_SHARED} \
 		--openssldir=${CMAKE_CURRENT_BINARY_DIR}/openssl_install
 	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(MAKE)
 	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(MAKE) install

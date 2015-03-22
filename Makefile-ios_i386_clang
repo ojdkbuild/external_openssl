@@ -18,7 +18,7 @@ ifeq ($(wildcard ${CMAKE_CURRENT_BINARY_DIR}/openssl),)
 	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(SH) ./Configure \
 		iphoneos-cross \
 		no-asm \
-		shared \
+		${${PROJECT_NAME}_SHARED} \
 		--openssldir=${CMAKE_CURRENT_BINARY_DIR}/openssl_install	
 	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(MAKE)
 	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(MAKE) install
