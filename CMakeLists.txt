@@ -61,12 +61,14 @@ set_target_properties( ${PROJECT_NAME} PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBR
 set ( ${PROJECT_NAME}_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/openssl/include )
 
 # tests
-enable_testing ( )
-set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_INCLUDES} )
-add_executable ( openssl_test ${CMAKE_CURRENT_LIST_DIR}/test/openssl_test.cpp )
-target_include_directories ( openssl_test BEFORE PRIVATE ${${PROJECT_NAME}_INCLUDES} )
-target_link_libraries ( openssl_test ${PROJECT_NAME} ${PROJECT_NAME}_ssl )
-add_test ( openssl_test ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/openssl_test )
+if ( "${STATICLIB_ROOT_SOURCE_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}" )
+    enable_testing ( )
+    set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_INCLUDES} )
+    add_executable ( openssl_test ${CMAKE_CURRENT_LIST_DIR}/test/openssl_test.cpp )
+    target_include_directories ( openssl_test BEFORE PRIVATE ${${PROJECT_NAME}_INCLUDES} )
+    target_link_libraries ( openssl_test ${PROJECT_NAME} ${PROJECT_NAME}_ssl )
+    add_test ( openssl_test ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/openssl_test )
+endif ( )
 
 # headers export
 set ( ${PROJECT_NAME}_INCLUDES ${${PROJECT_NAME}_INCLUDES} CACHE INTERNAL "" )
