@@ -15,12 +15,12 @@
 cmake_minimum_required ( VERSION 2.8.12 )
 
 # toolchain setup
-set ( STATICLIB_TOOLCHAIN linux_amd64_clang CACHE STRING "toolchain triplet" )
+set ( STATICLIB_TOOLCHAIN linux_amd64_gcc CACHE STRING "toolchain triplet" )
 set ( CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/cmake/toolchains/${STATICLIB_TOOLCHAIN}.cmake CACHE INTERNAL "" )
 
 # project setup
 project ( external_openssl CXX C )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.2 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.2.1 )
 # common include
 include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/staticlibs_common.cmake )
 # options, use SET ( OPTNAME ON CACHE BOOL "") to override
@@ -61,14 +61,10 @@ set_target_properties( ${PROJECT_NAME} PROPERTIES IMPORTED_LOCATION ${CMAKE_LIBR
 set ( ${PROJECT_NAME}_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/openssl/include )
 
 # tests
-if ( "${STATICLIB_ROOT_SOURCE_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}" )
-    enable_testing ( )
-    set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_INCLUDES} )
-    add_executable ( openssl_test ${CMAKE_CURRENT_LIST_DIR}/test/openssl_test.cpp )
-    target_include_directories ( openssl_test BEFORE PRIVATE ${${PROJECT_NAME}_INCLUDES} )
-    target_link_libraries ( openssl_test ${PROJECT_NAME} ${PROJECT_NAME}_ssl )
-    add_test ( openssl_test ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/openssl_test )
-endif ( )
+set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_INCLUDES} )
+set ( ${PROJECT_NAME}_TEST_LIBS ${PROJECT_NAME} ${PROJECT_NAME}_ssl )
+set ( ${PROJECT_NAME}_TEST_OPTS "" )
+staticlib_enable_testing ( ${PROJECT_NAME}_TEST_INCLUDES ${PROJECT_NAME}_TEST_LIBS ${PROJECT_NAME}_TEST_OPTS )
 
 # headers export
 set ( ${PROJECT_NAME}_INCLUDES ${${PROJECT_NAME}_INCLUDES} CACHE INTERNAL "" )
