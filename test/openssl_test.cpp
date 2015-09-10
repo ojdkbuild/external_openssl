@@ -25,6 +25,7 @@
 #include <cstdio>
 #include <cstring>
 
+#include <openssl/crypto.h>
 #include <openssl/aes.h>
 
 // http://stackoverflow.com/a/10082316
@@ -68,6 +69,7 @@ int main() {
     free(enc_out);
     free(dec_out);
 
+    CRYPTO_cleanup_all_ex_data();
     return 0;
 }
 
