@@ -28,7 +28,7 @@ option ( STATICLIB_OPENSSL_SHARED "Use 'shared' or 'no-shared' OpenSSL flag" OFF
 set ( ${PROJECT_NAME}_CFLAGS ${CMAKE_C_FLAGS} )
 if ( ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" )
     set ( ${PROJECT_NAME}_CFLAGS "${${PROJECT_NAME}_CFLAGS} -Wno-empty-translation-unit -Wno-gnu-statement-expression -Wno-shadow" )
-elseif ( ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" )
+elseif ( ${CMAKE_COMPILER_IS_GNUCXX} )
     set ( ${PROJECT_NAME}_CFLAGS "${${PROJECT_NAME}_CFLAGS} -Wno-maybe-uninitialized" )
 endif ( )
 if ( CMAKE_BUILD_TYPE MATCHES "Debug" )
