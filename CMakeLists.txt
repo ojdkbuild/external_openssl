@@ -47,14 +47,14 @@ endif ( )
 if ( DEFINED STATICLIB_TOOLCHAIN )
     configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Makefile-${STATICLIB_TOOLCHAIN}
             ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
-    add_custom_target( ${PROJECT_NAME}_build
+    add_custom_target( ${PROJECT_NAME}
             COMMAND ${CMAKE_MAKE_PROGRAM} -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
     add_library( crypto STATIC IMPORTED GLOBAL )
-    add_dependencies( crypto ${PROJECT_NAME}_build )
+    add_dependencies( crypto ${PROJECT_NAME} )
     set_target_properties( crypto PROPERTIES IMPORTED_LOCATION
             ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX} )
     add_library( ssl STATIC IMPORTED GLOBAL )
-    add_dependencies( ssl ${PROJECT_NAME}_build )
+    add_dependencies( ssl ${PROJECT_NAME} )
     set_target_properties( ssl PROPERTIES IMPORTED_LOCATION
             ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl${CMAKE_STATIC_LIBRARY_SUFFIX} )
 endif ( )
