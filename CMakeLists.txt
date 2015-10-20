@@ -48,8 +48,13 @@ if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
 endif ( )
 configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Makefile-${STATICLIB_TOOLCHAIN}
         ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
+if ( STATICLIB_TOOLCHAIN MATCHES "windows_[^_]+_[^_]+" )
+    set ( ${PROJECT_NAME}_MAKE_PROGRAM "nmake /nologo" )
+else ( )
+    set ( ${PROJECT_NAME}_MAKE_PROGRAM "make" )
+endif ( )
 add_custom_target ( ${PROJECT_NAME} ALL
-        COMMAND ${CMAKE_MAKE_PROGRAM} -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
+        COMMAND ${${PROJECT_NAME}_MAKE_PROGRAM} -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
 add_library( crypto STATIC IMPORTED GLOBAL )
 add_dependencies( crypto ${PROJECT_NAME} )
 set_target_properties( crypto PROPERTIES IMPORTED_LOCATION
