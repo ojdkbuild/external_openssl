@@ -8,7 +8,7 @@ Wrapper uses `Makefile`s for each supported platform, supports toolchain specifi
 with `STATICLIB_TOOLCHAIN` option and exports openssl headers to be used from dependent projects.
 
 OpenSSL unofficial GitHub repository is used as a git submodule of this project.
-OpenSSL pinned to version 1.0.2 but you are encouraged to update it to newer releases of 1.0.2 branch.
+OpenSSL pinned to version 1.0.2 but you are encouraged to update it to newer releases of the 1.0.2 branch.
 
 Link to [documentation](https://www.openssl.org/docs/).
 
@@ -17,9 +17,22 @@ How to build
 
 [CMake](http://cmake.org/) is required for building.
 
-[TODO]
+[Perl](https://www.perl.org/) is also required for building, Windows users can obtain ready-to-use
+Perl distribution from [tools_windows_perl](https://github.com/staticlibs/tools_windows_perl) repository.
 
-Perl is required for Windows builds.
+To build the library on Windows using Visual Studio 2013 Express run the following commands using
+Visual Studio development command prompt 
+(`C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts\VS2013 x86 Native Tools Command Prompt`):
+
+    git clone --recursive https://github.com/staticlibs/external_openssl.git
+    cd external_openssl
+    mkdir build
+    cd build
+    cmake .. -DSTATICLIB_TOOLCHAIN=windows_i386_msvc
+    msbuild external_openssl.sln
+
+See [StaticlibsToolchains](https://github.com/staticlibs/wiki/wiki/StaticlibsToolchains) for 
+more information about the toolchain setup and cross-compilation.
 
 License information
 -------------------
@@ -28,6 +41,10 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2015-10-20**
+
+ * version 1.0.2.3 - `pkg-config` integration
 
 **2015-07-08**
 

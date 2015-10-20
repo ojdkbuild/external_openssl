@@ -20,7 +20,6 @@ set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.2.3 )
 set ( ${PROJECT_NAME}_DESCRIPTION "OpenSSL library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_openssl.git )
 
-
 # options, use SET ( OPTNAME ON CACHE BOOL "") to override
 option ( STATICLIB_OPENSSL_SHARED "Use 'shared' or 'no-shared' OpenSSL flag" OFF )
 
@@ -47,7 +46,7 @@ endif ( )
 if ( DEFINED STATICLIB_TOOLCHAIN )
     configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Makefile-${STATICLIB_TOOLCHAIN}
             ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
-    add_custom_target( ${PROJECT_NAME}
+    add_custom_target ( ${PROJECT_NAME}
             COMMAND ${CMAKE_MAKE_PROGRAM} -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
     add_library( crypto STATIC IMPORTED GLOBAL )
     add_dependencies( crypto ${PROJECT_NAME} )
