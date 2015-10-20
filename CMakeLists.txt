@@ -49,9 +49,9 @@ endif ( )
 configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Makefile-${STATICLIB_TOOLCHAIN}
         ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
 if ( STATICLIB_TOOLCHAIN MATCHES "windows_[^_]+_[^_]+" )
-    set ( ${PROJECT_NAME}_MAKE_PROGRAM "nmake /nologo" )
+    set ( ${PROJECT_NAME}_MAKE_PROGRAM nmake )
 else ( )
-    set ( ${PROJECT_NAME}_MAKE_PROGRAM "make" )
+    set ( ${PROJECT_NAME}_MAKE_PROGRAM make )
 endif ( )
 add_custom_target ( ${PROJECT_NAME} ALL
         COMMAND ${${PROJECT_NAME}_MAKE_PROGRAM} -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
