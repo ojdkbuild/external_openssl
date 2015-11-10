@@ -23,7 +23,7 @@ configure:
 build:	
 	@if exist openssl_flag echo "[${CMAKE_CURRENT_BINARY_DIR}/openssl_flag] found, skipping build"
 	@if not exist openssl_flag pushd openssl & nmake /nologo -f ms\nt.mak & popd
-	@if not exist openssl_flag echo f | xcopy /f /y openssl/out32/libeay32.lib "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcrypto.lib"
-	@if not exist openssl_flag echo f | xcopy /f /y openssl/out32/ssleay32.lib "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl.lib"
-	@if not exist openssl_flag xcopy /s /i /q openssl/inc32 openssl/include
+	@if not exist openssl_flag echo f | xcopy /f /y "openssl/out32/libeay32.lib" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcrypto.lib"
+	@if not exist openssl_flag echo f | xcopy /f /y "openssl/out32/ssleay32.lib" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl.lib"
+	@if not exist openssl_flag xcopy /s /i /q "openssl/inc32" "openssl/include"
 	@if not exist openssl_flag echo "flag" > openssl_flag
