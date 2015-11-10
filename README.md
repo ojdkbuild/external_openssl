@@ -42,6 +42,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 Changelog
 ---------
 
+**2015-11-10**
+
+ * version 1.0.2.4
+ * separate `configure` and `build` stages for `Makefile` builds
+
 **2015-10-20**
 
  * version 1.0.2.3 - `pkg-config` integration

@@ -12,22 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-all:
-ifeq ($(wildcard ${CMAKE_CURRENT_BINARY_DIR}/openssl),)	
-	cp -a ${CMAKE_CURRENT_LIST_DIR}/openssl ${CMAKE_CURRENT_BINARY_DIR}/openssl
+configure:
 # http://wiki.openssl.org/index.php/Compilation_and_Installation#Modifying_Build_Settings	
-	perl -i -p -e 's#^"darwin64-x86_64-cc","cc:-arch x86_64 -O3#"darwin64-x86_64-cc","cc:-arch x86_64 ${${PROJECT_NAME}_CFLAGS}#g' ${CMAKE_CURRENT_BINARY_DIR}/openssl/Configure
-	perl -i -p -e 's#^install: all install_docs install_sw#install: all install_sw#g' ${CMAKE_CURRENT_BINARY_DIR}/openssl/Makefile.org
-	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(SH) ./Configure \
-		darwin64-x86_64-cc \
-		no-asm \
-		${${PROJECT_NAME}_SHARED} \
-		--openssldir=${CMAKE_CURRENT_BINARY_DIR}/openssl_install
-	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(MAKE)
-	cd ${CMAKE_CURRENT_BINARY_DIR}/openssl && $(MAKE) install
+	perl -i -p -e 's#^"darwin64-x86_64-cc","cc:-arch x86_64 -O3#"darwin64-x86_64-cc","cc:-arch x86_64 ${${PROJECT_NAME}_CFLAGS}#g' ./openssl/Configure
+	perl -i -p -e 's#^install: all install_docs install_sw#install: all install_sw#g' ./openssl/Makefile.org
+	cd openssl && $(SH) ./Configure \
+	    darwin64-x86_64-cc \
+	    no-asm \
+	    ${${PROJECT_NAME}_SHARED} \
+	    --openssldir=${CMAKE_CURRENT_BINARY_DIR}/openssl_install
+	
+build:
+ifeq ($(wildcard ./openssl_flag),)		
+	cd openssl && $(MAKE)
+	cd openssl && $(MAKE) install
 	mkdir -p ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-	cp ${CMAKE_CURRENT_BINARY_DIR}/openssl/libcrypto.a ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcrypto.a	
-	cp ${CMAKE_CURRENT_BINARY_DIR}/openssl/libssl.a ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl.a
+	cp ./openssl/libcrypto.a ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcrypto.a
+	cp ./openssl/libssl.a ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl.a
+	touch ./openssl_flag
 else
-	@echo "[${CMAKE_CURRENT_BINARY_DIR}/openssl] directory found, skipping build"
+	@echo "[${CMAKE_CURRENT_BINARY_DIR}/openssl_flag] found, skipping build"
 endif		

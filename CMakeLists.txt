@@ -16,12 +16,16 @@ cmake_minimum_required ( VERSION 2.8.12 )
 
 # project
 project ( external_openssl CXX )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.2.3 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.2.4 )
 set ( ${PROJECT_NAME}_DESCRIPTION "OpenSSL library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_openssl.git )
 
 # options, use SET ( OPTNAME ON CACHE BOOL "") to override
 option ( STATICLIB_OPENSSL_SHARED "Use 'shared' or 'no-shared' OpenSSL flag" OFF )
+
+# copy files
+file ( COPY ${CMAKE_CURRENT_LIST_DIR}/openssl
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 
 # variables for makefiles
 set ( ${PROJECT_NAME}_CFLAGS ${CMAKE_C_FLAGS} )
@@ -46,15 +50,22 @@ endif ( )
 if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
     set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
 endif ( )
+# copy makefile
 configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Makefile-${STATICLIB_TOOLCHAIN}
         ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
 if ( STATICLIB_TOOLCHAIN MATCHES "windows_[^_]+_[^_]+" )
     set ( ${PROJECT_NAME}_MAKE_PROGRAM nmake )
 else ( )
-    set ( ${PROJECT_NAME}_MAKE_PROGRAM make )
+    set ( ${PROJECT_NAME}_MAKE_PROGRAM ${CMAKE_MAKE_PROGRAM} )
 endif ( )
-add_custom_target ( ${PROJECT_NAME} ALL
-        COMMAND ${${PROJECT_NAME}_MAKE_PROGRAM} -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
+# run configure
+execute_process ( COMMAND ${${PROJECT_NAME}_MAKE_PROGRAM}
+        -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN} configure
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
+# add build target
+add_custom_target ( ${PROJECT_NAME} ALL COMMAND ${${PROJECT_NAME}_MAKE_PROGRAM}
+        -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN} build
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
 add_library( crypto STATIC IMPORTED GLOBAL )
 add_dependencies( crypto ${PROJECT_NAME} )
 set_target_properties( crypto PROPERTIES IMPORTED_LOCATION
