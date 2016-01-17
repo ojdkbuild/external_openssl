@@ -22,7 +22,7 @@ configure:
 	    --openssldir=${CMAKE_CURRENT_BINARY_DIR}/openssl_install
 	
 build:
-ifeq ($(wildcard ./openssl_flag),)		
+ifeq ($(wildcard ./openssl_flag),)
 	cd openssl && $(MAKE)
 	cd openssl && $(MAKE) install
 	mkdir -p ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}

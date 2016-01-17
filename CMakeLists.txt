@@ -16,12 +16,36 @@ cmake_minimum_required ( VERSION 2.8.12 )
 
 # project
 project ( external_openssl CXX )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.2.4 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.2.5 )
 set ( ${PROJECT_NAME}_DESCRIPTION "OpenSSL library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_openssl.git )
 
 # options, use SET ( OPTNAME ON CACHE BOOL "") to override
 option ( STATICLIB_OPENSSL_SHARED "Use 'shared' or 'no-shared' OpenSSL flag" OFF )
+
+# standalone build
+if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
+    set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR} )
+endif ( )
+if ( NOT DEFINED STATICLIB_TOOLCHAIN )
+    if ( NOT DEFINED ${PROJECT_NAME}_TOOLCHAIN )
+        if ( WIN32 )
+            if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+                set ( ${PROJECT_NAME}_TOOLCHAIN "windows_amd64_msvc" )
+            else ( )
+                set ( ${PROJECT_NAME}_TOOLCHAIN "windows_i386_msvc" )
+            endif ( )
+        elseif ( APPLE )
+            set ( ${PROJECT_NAME}_TOOLCHAIN "macosx_amd64_clang" )
+        elseif ( UNIX )
+            set ( ${PROJECT_NAME}_TOOLCHAIN "linux_amd64_gcc" )
+        else ( )
+            message ( FATAL_ERROR "Cannot determine toolchain to use, please specify [${PROJECT_NAME}_TOOLCHAIN]" )
+        endif ( )
+    endif ( )
+else ( )
+    set ( ${PROJECT_NAME}_TOOLCHAIN ${STATICLIB_TOOLCHAIN} )
+endif ( )
 
 # copy files
 file ( COPY ${CMAKE_CURRENT_LIST_DIR}/openssl
@@ -46,25 +70,39 @@ else ( )
     set ( ${PROJECT_NAME}_SHARED "no-dso" )
 endif ( )
 
-# library
-if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
-    set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
-endif ( )
 # copy makefile
-configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Makefile-${STATICLIB_TOOLCHAIN}
-        ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN})
-if ( STATICLIB_TOOLCHAIN MATCHES "windows_[^_]+_[^_]+" )
+configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Makefile-${${PROJECT_NAME}_TOOLCHAIN}
+        ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${${PROJECT_NAME}_TOOLCHAIN})
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_[^_]+_[^_]+" )
     set ( ${PROJECT_NAME}_MAKE_PROGRAM nmake )
 else ( )
     set ( ${PROJECT_NAME}_MAKE_PROGRAM ${CMAKE_MAKE_PROGRAM} )
 endif ( )
 # run configure
 execute_process ( COMMAND ${${PROJECT_NAME}_MAKE_PROGRAM}
-        -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN} configure
+        -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${${PROJECT_NAME}_TOOLCHAIN} configure
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
+
+# check deplibs cache
+if ( STATICLIB_USE_DEPLIBS_CACHE )
+    set ( ${PROJECT_NAME}_CACHED_LIB_PATH_CRYPTO ${STATICLIB_DEPLIBS_CACHE_DIR}/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX} )
+    set ( ${PROJECT_NAME}_CACHED_LIB_PATH_SSL ${STATICLIB_DEPLIBS_CACHE_DIR}/libssl${CMAKE_STATIC_LIBRARY_SUFFIX} )
+    if ( ( EXISTS ${${PROJECT_NAME}_CACHED_LIB_PATH_CRYPTO} ) 
+            AND ( EXISTS ${${PROJECT_NAME}_CACHED_LIB_PATH_SSL} ) )
+        add_library( crypto STATIC IMPORTED GLOBAL )
+        set_target_properties( crypto PROPERTIES IMPORTED_LOCATION ${${PROJECT_NAME}_CACHED_LIB_PATH_CRYPTO} )
+        add_library( ssl STATIC IMPORTED GLOBAL )
+        set_target_properties( ssl PROPERTIES IMPORTED_LOCATION ${${PROJECT_NAME}_CACHED_LIB_PATH_SSL} )
+        add_custom_target( ${PROJECT_NAME} crypto ssl )
+        message ( STATUS "Using cached library: [${${PROJECT_NAME}_CACHED_LIB_PATH_CRYPTO}]" )
+        message ( STATUS "Using cached library: [${${PROJECT_NAME}_CACHED_LIB_PATH_SSL}]" )
+        return ( )
+    endif ( )
+endif ( )
+
 # add build target
 add_custom_target ( ${PROJECT_NAME} ALL COMMAND ${${PROJECT_NAME}_MAKE_PROGRAM}
-        -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${STATICLIB_TOOLCHAIN} build
+        -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${${PROJECT_NAME}_TOOLCHAIN} build
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
 add_library( crypto STATIC IMPORTED GLOBAL )
 add_dependencies( crypto ${PROJECT_NAME} )
@@ -76,9 +114,6 @@ set_target_properties( ssl PROPERTIES IMPORTED_LOCATION
         ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl${CMAKE_STATIC_LIBRARY_SUFFIX} )
 
 # pkg-config
-if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
-    set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
-endif ( )
 set ( ${PROJECT_NAME}_MODULE openssl )
 set ( ${PROJECT_NAME}_PC_CFLAGS "-I${CMAKE_CURRENT_BINARY_DIR}/openssl/include" )
 set ( ${PROJECT_NAME}_PC_LIBS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -lssl -lcrypto" )

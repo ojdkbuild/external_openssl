@@ -21,12 +21,15 @@
  * Created on February 9, 2015, 12:35 PM
  */
 
+#include <iostream>
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
 
 #include <openssl/crypto.h>
 #include <openssl/aes.h>
+
+#include "staticlib/config/assert.hpp"
 
 // http://stackoverflow.com/a/10082316
 static const unsigned char key[] = {
@@ -35,7 +38,7 @@ static const unsigned char key[] = {
     0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 };
 
-int main() {
+void test_crypto() {
     unsigned char text[] = "hello world!";
     unsigned char* enc_out = static_cast<unsigned char*>(malloc(80 * sizeof(char)));
     memset(enc_out, 0, 80 * sizeof (char));
@@ -70,6 +73,17 @@ int main() {
     free(dec_out);
 
     CRYPTO_cleanup_all_ex_data();
-    return 0;
 }
 
+int main() {
+    try {
+        // false positives under valgrind
+#ifndef STATICLIB_LINUX        
+        test_crypto();
+#endif        
+    } catch (const std::exception& e) {
+        std::cout << e.what() << std::endl;
+        return 1;
+    }
+    return 0;
+}

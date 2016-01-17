@@ -10,7 +10,7 @@ with `STATICLIB_TOOLCHAIN` option and exports openssl headers to be used from de
 OpenSSL unofficial GitHub repository is used as a git submodule of this project.
 OpenSSL pinned to version 1.0.2 but you are encouraged to update it to newer releases of the 1.0.2 branch.
 
-Link to [documentation](https://www.openssl.org/docs/).
+Link to the [documentation](https://www.openssl.org/docs/).
 
 How to build
 ------------
@@ -28,7 +28,7 @@ Visual Studio development command prompt
     cd external_openssl
     mkdir build
     cd build
-    cmake .. -DSTATICLIB_TOOLCHAIN=windows_i386_msvc
+    cmake ..
     msbuild external_openssl.sln
 
 See [StaticlibsToolchains](https://github.com/staticlibs/wiki/wiki/StaticlibsToolchains) for 
@@ -41,6 +41,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2016-01-17**
+
+ * version 1.0.2.5
+ * minor CMake changes
 
 **2015-11-10**
 
