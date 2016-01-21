@@ -30,7 +30,7 @@ configure:
 	    iphoneos-cross \
 	    no-asm \
 	    ${${PROJECT_NAME}_SHARED} \
-	    --openssldir=${CMAKE_CURRENT_BINARY_DIR}/openssl_install	
+	    --openssldir=${CMAKE_CURRENT_BINARY_DIR}/openssl_install
 
 build:
 ifeq ($(wildcard ./openssl_flag),)		

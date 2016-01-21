@@ -13,6 +13,13 @@
 # limitations under the License.
 
 configure:
+	@echo -- Creating symlinks for OpenSSL headers
+	@mkdir openssl/include/openssl && cd openssl/include/openssl && \
+	    $(SH) ${CMAKE_CURRENT_LIST_DIR}/resources/preconfigured/create-symlinks.sh
+	
+build:
+ifeq ($(wildcard ./openssl_flag),)
+	rm -rf openssl/include/openssl
 # http://wiki.openssl.org/index.php/Compilation_and_Installation#Modifying_Build_Settings	
 	perl -i -p -e 's#^"linux-x86_64",\s*"gcc:-m64 -DL_ENDIAN -DTERMIO -O3#"linux-x86_64", "gcc:-m64 -DL_ENDIAN -DTERMIO -O3 ${${PROJECT_NAME}_CFLAGS}#g' ./openssl/Configure
 	perl -i -p -e 's#^install: all install_docs install_sw#install: all install_sw#g' ./openssl/Makefile.org	
@@ -20,9 +27,6 @@ configure:
 	    linux-x86_64 \
 	    ${${PROJECT_NAME}_SHARED} \
 	    --openssldir=${CMAKE_CURRENT_BINARY_DIR}/openssl_install
-	
-build:
-ifeq ($(wildcard ./openssl_flag),)		
 	cd openssl && $(MAKE)
 	cd openssl && $(MAKE) install
 	mkdir -p ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}

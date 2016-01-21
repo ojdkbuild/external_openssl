@@ -50,6 +50,10 @@ endif ( )
 # copy files
 file ( COPY ${CMAKE_CURRENT_LIST_DIR}/openssl
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file ( COPY ${CMAKE_CURRENT_LIST_DIR}/resources/preconfigured/opensslconf-${${PROJECT_NAME}_TOOLCHAIN}.h
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/ )
+file ( RENAME ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/opensslconf-${${PROJECT_NAME}_TOOLCHAIN}.h
+        ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/opensslconf.h )
 
 # variables for makefiles
 set ( ${PROJECT_NAME}_CFLAGS ${CMAKE_C_FLAGS} )
