@@ -74,6 +74,15 @@ else ( )
     set ( ${PROJECT_NAME}_SHARED "no-dso" )
 endif ( )
 
+# patch OpenSLL if musl is used
+# https://patchwork.ozlabs.org/patch/388010/
+if ( STATICLIB_TOOLCHAIN MATCHES "alpine_[^_]+_[^_]+" AND ( NOT DEFINED ${PROJECT_NAME}_OPENSSL_MUSL_APPLIED ) )
+    message ( STATUS "Applying patch to OpenSSL to support musl" )
+    staticlib_apply_git_patch ( ${CMAKE_CURRENT_LIST_DIR}/openssl
+            ${STATICLIB_CMAKE}/resources/musl/openssl102_musl.patch )
+    set ( ${PROJECT_NAME}_OPENSSL_MUSL_APPLIED "" CACHE INTERNAL "" )
+endif ( )
+
 # copy makefile
 configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Makefile-${${PROJECT_NAME}_TOOLCHAIN}
         ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${${PROJECT_NAME}_TOOLCHAIN})
