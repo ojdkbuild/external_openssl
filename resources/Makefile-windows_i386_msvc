@@ -12,17 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-
-
 configure:
-# http://rt.openssl.org/Ticket/Display.html?id=3650&user=guest&pass=guest
-	pushd openssl & perl Configure VC-WIN32 no-asm & popd
-	pushd openssl & ms\do_ms & popd
+    @if not exist openssl_flag pushd "openssl/include" && mkdir openssl && popd
+    @if not exist openssl_flag pushd "openssl/include/openssl" && "${CMAKE_CURRENT_LIST_DIR}/resources/preconfigured/copy-headers.bat" > copy-headers.out && popd
 	
 build:	
 	@if exist openssl_flag echo "[${CMAKE_CURRENT_BINARY_DIR}/openssl_flag] found, skipping build"
-	@if not exist openssl_flag pushd openssl & nmake /nologo -f ms\nt.mak & popd
+    @if not exist openssl_flag rmdir /s /q "openssl/include/openssl"
+	@if not exist openssl_flag pushd openssl && perl Configure VC-WIN32 && popd
+	@if not exist openssl_flag pushd openssl && ms\do_nasm && popd
+    @if not exist openssl_flag perl -pi.bak -e "s#^CFLAG= /MT /Ox /O2 /Ob2#CFLAG= ${${PROJECT_NAME}_CFLAGS}#g" openssl\ms\nt.mak
+	@if not exist openssl_flag pushd openssl && nmake /nologo -f ms\nt.mak && popd
 	@if not exist openssl_flag echo f | xcopy /f /y "openssl/out32/libeay32.lib" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcrypto.lib"
 	@if not exist openssl_flag echo f | xcopy /f /y "openssl/out32/ssleay32.lib" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl.lib"
 	@if not exist openssl_flag xcopy /s /i /q "openssl/inc32" "openssl/include"

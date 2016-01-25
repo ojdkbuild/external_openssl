@@ -78,9 +78,9 @@ endif ( )
 # patch OpenSSL if windows x86 is used
 # http://rt.openssl.org/Ticket/Display.html?id=3650&user=guest&pass=guest
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" AND ( NOT DEFINED ${PROJECT_NAME}_OPENSSL_WIN32_APPLIED ) )
-    message ( STATUS "Applying patch to OpenSSL to support fix asm support" )
+    message ( STATUS "Applying patch to OpenSSL to fix asm support" )
     external_openssl_apply_git_patch ( ${CMAKE_CURRENT_LIST_DIR}/openssl
-            ${STATICLIB_CMAKE}/resources/windows/masm_102_3650.patch )
+            ${CMAKE_CURRENT_LIST_DIR}/resources/windows/masm_102_3650.patch )
     set ( ${PROJECT_NAME}_OPENSSL_WIN32_APPLIED "" CACHE INTERNAL "" )
 endif ( )
 
