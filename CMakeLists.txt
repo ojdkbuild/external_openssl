@@ -47,14 +47,6 @@ else ( )
     set ( ${PROJECT_NAME}_TOOLCHAIN ${STATICLIB_TOOLCHAIN} )
 endif ( )
 
-# copy files
-file ( COPY ${CMAKE_CURRENT_LIST_DIR}/openssl
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
-file ( COPY ${CMAKE_CURRENT_LIST_DIR}/resources/preconfigured/opensslconf-${${PROJECT_NAME}_TOOLCHAIN}.h
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/ )
-file ( RENAME ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/opensslconf-${${PROJECT_NAME}_TOOLCHAIN}.h
-        ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/opensslconf.h )
-
 # variables for makefiles
 set ( ${PROJECT_NAME}_CFLAGS ${CMAKE_C_FLAGS} )
 if ( ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang" )
@@ -74,13 +66,25 @@ else ( )
     set ( ${PROJECT_NAME}_SHARED "no-dso" )
 endif ( )
 
-# patch OpenSLL if musl is used
+# patch OpenSSL if musl is used
 # https://patchwork.ozlabs.org/patch/388010/
 if ( STATICLIB_TOOLCHAIN MATCHES "alpine_[^_]+_[^_]+" AND ( NOT DEFINED ${PROJECT_NAME}_OPENSSL_MUSL_APPLIED ) )
     message ( STATUS "Applying patch to OpenSSL to support musl" )
     staticlib_apply_git_patch ( ${CMAKE_CURRENT_LIST_DIR}/openssl
             ${STATICLIB_CMAKE}/resources/musl/openssl102_musl.patch )
     set ( ${PROJECT_NAME}_OPENSSL_MUSL_APPLIED "" CACHE INTERNAL "" )
+endif ( )
+
+# copy files
+file ( COPY ${CMAKE_CURRENT_LIST_DIR}/openssl
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file ( COPY ${CMAKE_CURRENT_LIST_DIR}/resources/preconfigured/opensslconf-${${PROJECT_NAME}_TOOLCHAIN}.h
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/ )
+file ( RENAME ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/opensslconf-${${PROJECT_NAME}_TOOLCHAIN}.h
+        ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/opensslconf.h )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_[^_]+_[^_]+" )
+    configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/windows/VC-32.pl.in
+            ${CMAKE_CURRENT_BINARY_DIR}/openssl/util/pl/VC-32.pl )
 endif ( )
 
 # copy makefile
