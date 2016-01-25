@@ -82,10 +82,6 @@ file ( COPY ${CMAKE_CURRENT_LIST_DIR}/resources/preconfigured/opensslconf-${${PR
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/ )
 file ( RENAME ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/opensslconf-${${PROJECT_NAME}_TOOLCHAIN}.h
         ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/opensslconf.h )
-if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_[^_]+_[^_]+" )
-    configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/windows/VC-32.pl.in
-            ${CMAKE_CURRENT_BINARY_DIR}/openssl/util/pl/VC-32.pl )
-endif ( )
 
 # copy makefile
 configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Makefile-${${PROJECT_NAME}_TOOLCHAIN}
