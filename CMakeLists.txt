@@ -19,6 +19,7 @@ project ( external_openssl CXX )
 set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.2.5 )
 set ( ${PROJECT_NAME}_DESCRIPTION "OpenSSL library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_openssl.git )
+include ( ${CMAKE_CURRENT_LIST_DIR}/resources/macros.cmake )
 
 # options, use SET ( OPTNAME ON CACHE BOOL "") to override
 option ( STATICLIB_OPENSSL_SHARED "Use 'shared' or 'no-shared' OpenSSL flag" OFF )
@@ -68,11 +69,19 @@ endif ( )
 
 # patch OpenSSL if musl is used
 # https://patchwork.ozlabs.org/patch/388010/
-if ( STATICLIB_TOOLCHAIN MATCHES "alpine_[^_]+_[^_]+" AND ( NOT DEFINED ${PROJECT_NAME}_OPENSSL_MUSL_APPLIED ) )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "alpine_[^_]+_[^_]+" AND ( NOT DEFINED ${PROJECT_NAME}_OPENSSL_MUSL_APPLIED ) )
     message ( STATUS "Applying patch to OpenSSL to support musl" )
-    staticlib_apply_git_patch ( ${CMAKE_CURRENT_LIST_DIR}/openssl
+    external_openssl_apply_git_patch ( ${CMAKE_CURRENT_LIST_DIR}/openssl
             ${STATICLIB_CMAKE}/resources/musl/openssl102_musl.patch )
     set ( ${PROJECT_NAME}_OPENSSL_MUSL_APPLIED "" CACHE INTERNAL "" )
+endif ( )
+# patch OpenSSL if windows x86 is used
+# http://rt.openssl.org/Ticket/Display.html?id=3650&user=guest&pass=guest
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" AND ( NOT DEFINED ${PROJECT_NAME}_OPENSSL_WIN32_APPLIED ) )
+    message ( STATUS "Applying patch to OpenSSL to support fix asm support" )
+    external_openssl_apply_git_patch ( ${CMAKE_CURRENT_LIST_DIR}/openssl
+            ${STATICLIB_CMAKE}/resources/windows/masm_102_3650.patch )
+    set ( ${PROJECT_NAME}_OPENSSL_WIN32_APPLIED "" CACHE INTERNAL "" )
 endif ( )
 
 # copy files
