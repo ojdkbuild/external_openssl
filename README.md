@@ -8,7 +8,7 @@ Wrapper uses `Makefile`s for each supported platform, supports toolchain specifi
 with `STATICLIB_TOOLCHAIN` option and exports openssl headers to be used from dependent projects.
 
 OpenSSL unofficial GitHub repository is used as a git submodule of this project.
-OpenSSL pinned to version 1.0.2 but you are encouraged to update it to newer releases of the 1.0.2 branch.
+OpenSSL pinned to version 1.0.2 but you are encouraged to update it to newer release of the 1.0.2 branch.
 
 Link to the [documentation](https://www.openssl.org/docs/).
 
