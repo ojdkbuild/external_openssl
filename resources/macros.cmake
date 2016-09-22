@@ -22,3 +22,25 @@ macro ( ${PROJECT_NAME}_apply_git_patch _gitdir_path _patch_path )
     execute_process ( COMMAND git apply ${_patch_path}
             WORKING_DIRECTORY ${_gitdir_path} )
 endmacro ( )
+
+# converts list to space-separated string with a prefix to each element
+macro ( ${PROJECT_NAME}_list_to_string _out_var_name _prefix _list_var_name )
+    set ( ${_out_var_name} "" )
+    foreach ( _el ${${_list_var_name}} )
+        set ( ${_out_var_name} "${${_out_var_name}}${_prefix}${_el} " )
+    endforeach ( )
+endmacro ( )
+
+# asm compilation
+macro ( ${PROJECT_NAME}_asm_compile _path )
+    string ( REGEX REPLACE "/[^/]*$" "/" _dir ${_path} )
+    string ( REGEX REPLACE "^.*/" "" _name ${_path} )
+    string ( REGEX REPLACE "\\..*$" "" _name ${_name} )
+    add_custom_command ( OUTPUT ${_name}.obj
+        COMMAND perl ${_dir}/${_name}.pl ${${PROJECT_NAME}_ASM_PERL_OPTIONS} > ${_name}.asm
+            COMMAND nasm ${${PROJECT_NAME}_ASM_NASM_OPTIONS} -o ${_name}.obj ${_name}.asm
+            WORKING_DIRECTORY ${PROJECT_BINARY_DIR} )
+    set_source_files_properties ( ${PROJECT_BINARY_DIR}/${_name}.asm PROPERTIES GENERATED 1 )
+    set ( ${PROJECT_NAME}_ASMOBJ ${${PROJECT_NAME}_ASMOBJ} ${PROJECT_BINARY_DIR}/${_name}.obj )
+endmacro ( )
+

@@ -1,3 +1,6 @@
 [submodule "openssl"]
 	path = openssl
 	url = https://github.com/openssl/openssl.git
+[submodule "lookaside_openssl"]
+	path = lookaside_openssl
+	url = https://github.com/ojdkbuild/lookaside_openssl.git
