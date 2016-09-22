@@ -70,7 +70,8 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_msvc" )
             -DOPENSSL_NO_JPAKE
             -DOPENSSL_NO_EC2M
             -DOPENSSL_NO_DYNAMIC_ENGINE
-            -DNO_WINDOWS_BRAINDEATH )
+            -DMK1MF_BUILD
+            -DMK1MF_PLATFORM_VC_WIN32 )
         set ( ${PROJECT_NAME}_ASM_PERL_OPTIONS 
             win32n
             ${${PROJECT_NAME}_DEFINITIONS} )
@@ -82,7 +83,8 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_msvc" )
             -DDSO_WIN32
             -DOPENSSL_SYSNAME_WIN32
             -DWIN32_LEAN_AND_MEAN
-            -DL_ENDIAN -DUNICODE
+            -DL_ENDIAN
+            -DUNICODE
             -D_UNICODE
             -D_CRT_SECURE_NO_DEPRECATE
             -Dinline=__inline
@@ -112,9 +114,8 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_msvc" )
             -DOPENSSL_NO_JPAKE
             -DOPENSSL_NO_EC2M
             -DOPENSSL_NO_DYNAMIC_ENGINE
-            -DNO_WINDOWS_BRAINDEATH )
-        set ( ${PROJECT_NAME}_ASM_PERL_OPTIONS 
-            ${${PROJECT_NAME}_DEFINITIONS} )
+            -DMK1MF_BUILD
+            -DMK1MF_PLATFORM_VC_WIN64A )
     set ( ${PROJECT_NAME}_ASM_NASM_OPTIONS
             -f
             win64
@@ -198,6 +199,7 @@ configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_ubsec_err.c" "${PROJECT
 configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_ubsec_err.h" "${PROJECT_BINARY_DIR}/include_private/e_ubsec_err.h" COPYONLY )
 configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_capi_err.c" "${PROJECT_BINARY_DIR}/include_private/e_capi_err.c" COPYONLY )
 configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_capi_err.h" "${PROJECT_BINARY_DIR}/include_private/e_capi_err.h" COPYONLY )
+configure_file( "${CMAKE_CURRENT_LIST_DIR}/include_${${PROJECT_NAME}_TOOLCHAIN}/buildinf.h" "${PROJECT_BINARY_DIR}/include_private/buildinf.h" COPYONLY )
 
 # public
 configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/e_os2.h" "${PROJECT_BINARY_DIR}/include/openssl/e_os2.h" COPYONLY )
@@ -492,6 +494,7 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/asm/vpaes-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/asm/bsaes-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/asm/aesni-x86_64.pl )
+    openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/asm/aesni-sha1-x86_64.pl )
 endif ( )
 
 # crypto/camellia
@@ -571,6 +574,10 @@ set ( ${PROJECT_NAME}_CRYPTO_BN_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_depr.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_const.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_x931p.c )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+    set ( ${PROJECT_NAME}_CRYPTO_BN_SRC ${${PROJECT_NAME}_CRYPTO_BN_SRC}
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_asm.c )
+endif ( ) 
 set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_BN_SRC} )
 source_group ( "crypto_bn" FILES ${${PROJECT_NAME}_CRYPTO_BN_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
@@ -1161,9 +1168,12 @@ source_group ( "crypto_pqueue" FILES ${${PROJECT_NAME}_CRYPTO_PQUEUE_SRC} )
 
 # crypto/whrlpool
 set ( ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC 
-        ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_dgst.c
-        ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_block.c )
+        ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_dgst.c )
 set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC} )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
+    set ( ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC}
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_block.c )
+endif ( ) 
 source_group ( "crypto_whrlpool" FILES ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/asm/wp-mmx.pl )
