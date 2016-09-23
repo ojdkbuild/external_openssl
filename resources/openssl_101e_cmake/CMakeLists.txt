@@ -344,6 +344,14 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/asm/sha1-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/asm/sha512-x86_64.pl )
+    # special case for sha256
+    add_custom_command ( OUTPUT sha256-x86_64.obj
+            COMMAND set ASM=nasm -f win64 -DNEAR -Ox -g
+            COMMAND perl ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/asm/sha512-x86_64.pl sha256-x86_64.asm
+            COMMAND nasm ${${PROJECT_NAME}_ASM_NASM_OPTIONS} -o sha256-x86_64.obj sha256-x86_64.asm
+            WORKING_DIRECTORY ${PROJECT_BINARY_DIR} )
+    set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha256-x86_64.asm PROPERTIES GENERATED 1 )
+    set ( ${PROJECT_NAME}_ASMOBJ ${${PROJECT_NAME}_ASMOBJ} ${PROJECT_BINARY_DIR}/sha256-x86_64.obj )
 endif ( )
 
 # crypto/hmac
