@@ -1177,11 +1177,11 @@ source_group ( "crypto_pqueue" FILES ${${PROJECT_NAME}_CRYPTO_PQUEUE_SRC} )
 # crypto/whrlpool
 set ( ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_dgst.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     set ( ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_block.c )
 endif ( ) 
+set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC} )
 source_group ( "crypto_whrlpool" FILES ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/asm/wp-mmx.pl )
