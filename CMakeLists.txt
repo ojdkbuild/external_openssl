@@ -55,10 +55,14 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_[^_]+_msvc" )
 
     # pkg-config
     set ( ${PROJECT_NAME}_MODULE openssl )
-    external_openssl_list_to_string ( ${PROJECT_NAME}_PC_CFLAGS "-I" openssl_INCLUDES )
+    set ( ${PROJECT_NAME}_PC_CFLAGS "-I${CMAKE_CURRENT_BINARY_DIR}/openssl/include" )
+    # curl requires it
+    set ( ${PROJECT_NAME}_PC_CFLAGS "${${PROJECT_NAME}_PC_CFLAGS} -I${CMAKE_CURRENT_BINARY_DIR}/openssl/include/openssl" )
     set ( ${PROJECT_NAME}_PC_LIBS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -lopenssl" )
     configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/pkg-config.in 
             ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/openssl.pc )
+    configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/pkg-config.in 
+            ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/libssl.pc )
 else ( )
     # variables for makefiles
     if ( CMAKE_BUILD_TYPE MATCHES "Release" )
