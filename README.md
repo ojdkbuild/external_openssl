@@ -3,12 +3,10 @@ OpenSSL library build for Staticlibs
 
 This project is a part of [Staticlibs](http://staticlibs.net/).
 
-This project contains a CMake wrapper for the [openssl library](https://github.com/openssl/openssl). 
-Wrapper uses `Makefile`s for each supported platform, supports toolchain specification
-with `STATICLIB_TOOLCHAIN` option and exports openssl headers to be used from dependent projects.
+This project contains a CMake wrapper for [OpenSSL library](https://www.openssl.org/). 
 
-OpenSSL unofficial GitHub repository is used as a git submodule of this project.
-OpenSSL pinned to version 1.0.2 but you are encouraged to update it to newer release of the 1.0.2 branch.
+[OpenSSL sources imported from CentOS lookaside](https://github.com/ojdkbuild/lookaside_openssl.git)
+are used a submodule of this project.
 
 Link to the [documentation](https://www.openssl.org/docs/).
 
@@ -20,8 +18,7 @@ How to build
 [Perl](https://www.perl.org/) is also required for building, Windows users can obtain ready-to-use
 Perl distribution from [tools_windows_perl](https://github.com/staticlibs/tools_windows_perl) repository.
 
-[NASM](http://nasm.us/) is also required for building on Windows x86 
-(optional on Windows x86_64 - will be used if present in `PATH`).
+[NASM](http://nasm.us/) is also required for building on Windows.
 You can obtain ready-to-use NASM distribution from 
 [tools_windows_nasm](https://github.com/staticlibs/tools_windows_nasm) repository.
 
@@ -46,6 +43,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2016-10-29**
+
+ * version 1.0.1e-2
+ * use OpenSSL sources from CentOS
 
 **2016-01-17**
 

@@ -16,7 +16,7 @@ cmake_minimum_required ( VERSION 2.8.12 )
 
 # project
 project ( external_openssl C CXX )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.1e-1 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.1e-2 )
 set ( ${PROJECT_NAME}_DESCRIPTION "OpenSSL library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_openssl.git )
 include ( ${CMAKE_CURRENT_LIST_DIR}/resources/macros.cmake )
@@ -64,95 +64,5 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_[^_]+_msvc" )
     configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/pkg-config.in 
             ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/libssl.pc )
 else ( )
-    # variables for makefiles
-    if ( CMAKE_BUILD_TYPE MATCHES "Release" )
-        set ( ${PROJECT_NAME}_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}" )
-    else ( )
-        set ( ${PROJECT_NAME}_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG}" )
-    endif ( )
-    if ( ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang" )
-        set ( ${PROJECT_NAME}_CFLAGS "${${PROJECT_NAME}_CFLAGS} -Wno-empty-translation-unit -Wno-gnu-statement-expression -Wno-shadow" )
-    elseif ( ${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" )
-        set ( ${PROJECT_NAME}_CFLAGS "${${PROJECT_NAME}_CFLAGS} -Wno-maybe-uninitialized" )
-    endif ( )
-    if ( STATICLIB_OPENSSL_SHARED )
-        set ( ${PROJECT_NAME}_SHARED "shared" )
-    else ( )
-        set ( ${PROJECT_NAME}_SHARED "no-dso" )
-    endif ( )
-
-    # patch OpenSSL if musl is used
-    # https://patchwork.ozlabs.org/patch/388010/
-    if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "alpine_[^_]+_[^_]+" AND ( NOT DEFINED ${PROJECT_NAME}_OPENSSL_MUSL_APPLIED ) )
-        message ( STATUS "Applying patch to OpenSSL to support musl" )
-        external_openssl_apply_git_patch ( ${CMAKE_CURRENT_LIST_DIR}/openssl
-                ${STATICLIB_CMAKE}/resources/musl/openssl102_musl.patch )
-        set ( ${PROJECT_NAME}_OPENSSL_MUSL_APPLIED "" CACHE INTERNAL "" )
-    endif ( )
-    # patch OpenSSL if windows x86 is used
-    # http://rt.openssl.org/Ticket/Display.html?id=3650&user=guest&pass=guest
-    if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" AND ( NOT DEFINED ${PROJECT_NAME}_OPENSSL_WIN32_APPLIED ) )
-        message ( STATUS "Applying patch to OpenSSL to fix asm support" )
-        external_openssl_apply_git_patch ( ${CMAKE_CURRENT_LIST_DIR}/openssl
-                ${CMAKE_CURRENT_LIST_DIR}/resources/windows/masm_102_3650.patch )
-        set ( ${PROJECT_NAME}_OPENSSL_WIN32_APPLIED "" CACHE INTERNAL "" )
-    endif ( )
-
-    # copy files
-    file ( COPY ${CMAKE_CURRENT_LIST_DIR}/openssl
-            DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
-    file ( COPY ${CMAKE_CURRENT_LIST_DIR}/resources/preconfigured/opensslconf-${${PROJECT_NAME}_TOOLCHAIN}.h
-            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/ )
-    file ( RENAME ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/opensslconf-${${PROJECT_NAME}_TOOLCHAIN}.h
-            ${CMAKE_CURRENT_BINARY_DIR}/openssl/crypto/opensslconf.h )
-
-    # copy makefile
-    configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Makefile-${${PROJECT_NAME}_TOOLCHAIN}
-            ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${${PROJECT_NAME}_TOOLCHAIN})
-    if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_[^_]+_[^_]+" )
-        set ( ${PROJECT_NAME}_MAKE_PROGRAM nmake )
-    else ( )
-        set ( ${PROJECT_NAME}_MAKE_PROGRAM ${CMAKE_MAKE_PROGRAM} )
-    endif ( )
-    # run configure
-    execute_process ( COMMAND ${${PROJECT_NAME}_MAKE_PROGRAM}
-            -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${${PROJECT_NAME}_TOOLCHAIN} configure
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
-
-    # check deplibs cache
-    if ( STATICLIB_USE_DEPLIBS_CACHE )
-        set ( ${PROJECT_NAME}_CACHED_LIB_PATH_CRYPTO ${STATICLIB_DEPLIBS_CACHE_DIR}/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX} )
-        set ( ${PROJECT_NAME}_CACHED_LIB_PATH_SSL ${STATICLIB_DEPLIBS_CACHE_DIR}/libssl${CMAKE_STATIC_LIBRARY_SUFFIX} )
-        if ( ( EXISTS ${${PROJECT_NAME}_CACHED_LIB_PATH_CRYPTO} ) 
-                AND ( EXISTS ${${PROJECT_NAME}_CACHED_LIB_PATH_SSL} ) )
-            add_library( crypto STATIC IMPORTED GLOBAL )
-            set_target_properties( crypto PROPERTIES IMPORTED_LOCATION ${${PROJECT_NAME}_CACHED_LIB_PATH_CRYPTO} )
-            add_library( ssl STATIC IMPORTED GLOBAL )
-            set_target_properties( ssl PROPERTIES IMPORTED_LOCATION ${${PROJECT_NAME}_CACHED_LIB_PATH_SSL} )
-            add_custom_target( ${PROJECT_NAME} )
-            message ( STATUS "Using cached library: [${${PROJECT_NAME}_CACHED_LIB_PATH_CRYPTO}]" )
-            message ( STATUS "Using cached library: [${${PROJECT_NAME}_CACHED_LIB_PATH_SSL}]" )
-            return ( )
-        endif ( )
-    endif ( )
-
-    # add build target
-    add_custom_target ( ${PROJECT_NAME} ALL COMMAND ${${PROJECT_NAME}_MAKE_PROGRAM}
-            -f ${CMAKE_CURRENT_BINARY_DIR}/Makefile-${${PROJECT_NAME}_TOOLCHAIN} build
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
-    add_library( crypto STATIC IMPORTED GLOBAL )
-    add_dependencies( crypto ${PROJECT_NAME} )
-    set_target_properties( crypto PROPERTIES IMPORTED_LOCATION
-            ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX} )
-    add_library( ssl STATIC IMPORTED GLOBAL )
-    add_dependencies( ssl ${PROJECT_NAME} )
-    set_target_properties( ssl PROPERTIES IMPORTED_LOCATION
-            ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libssl${CMAKE_STATIC_LIBRARY_SUFFIX} )
-
-    # pkg-config
-    set ( ${PROJECT_NAME}_MODULE openssl )
-    set ( ${PROJECT_NAME}_PC_CFLAGS "-I${CMAKE_CURRENT_BINARY_DIR}/openssl/include" )
-    set ( ${PROJECT_NAME}_PC_LIBS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -lssl -lcrypto" )
-    configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/pkg-config.in 
-            ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/openssl.pc )
+    message ( FATAL_ERROR "Currently only windows builds are supported, please use older version" )
 endif ( )

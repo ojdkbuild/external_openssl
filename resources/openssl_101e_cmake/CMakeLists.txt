@@ -14,7 +14,7 @@
 
 cmake_minimum_required ( VERSION 2.8.12 )
 project ( openssl C )
-set ( ${PROJECT_NAME}_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../lookaside_openssl )
+set ( ${PROJECT_NAME}_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../openssl )
 include ( ${CMAKE_CURRENT_LIST_DIR}/../macros.cmake )
 
 # standalone build
