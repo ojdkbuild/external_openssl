@@ -277,6 +277,17 @@ configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/kssl.h" "${CMAKE_CURRENT_BINA
 configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/srtp.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/srtp.h" COPYONLY )
 configure_file( "${CMAKE_CURRENT_LIST_DIR}/include_${${PROJECT_NAME}_TOOLCHAIN}/opensslconf.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/opensslconf.h" COPYONLY )
 
+# check deplibs cache
+if ( STATICLIB_USE_DEPLIBS_CACHE )
+    set ( ${PROJECT_NAME}_CACHED_LIB_PATH ${STATICLIB_DEPLIBS_CACHE_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX} )
+    if ( EXISTS ${${PROJECT_NAME}_CACHED_LIB_PATH} )
+        add_library( ${PROJECT_NAME} STATIC IMPORTED GLOBAL )
+        set_target_properties( ${PROJECT_NAME} PROPERTIES IMPORTED_LOCATION ${${PROJECT_NAME}_CACHED_LIB_PATH} )
+        message ( STATUS "Using cached library: [${${PROJECT_NAME}_CACHED_LIB_PATH}]" )
+        return ( )
+    endif ( )
+endif ( )
+
 # sources
 set ( ${PROJECT_NAME}_SRC )
 set ( ${PROJECT_NAME}_ASMOBJ )
