@@ -46,8 +46,9 @@ Changelog
 
 **2016-11-08**
 
- * version 1.0.1e-3
+ * version 1.0.1e-4
  * update OpenSSL with recent patches
+ * Android and Linux builds
 
 **2016-10-30**
 

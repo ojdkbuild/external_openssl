@@ -16,7 +16,7 @@ cmake_minimum_required ( VERSION 2.8.12 )
 
 # project
 project ( external_openssl C CXX )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.1e-3 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.1e-4 )
 set ( ${PROJECT_NAME}_DESCRIPTION "OpenSSL library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_openssl.git )
 include ( ${CMAKE_CURRENT_LIST_DIR}/resources/macros.cmake )
