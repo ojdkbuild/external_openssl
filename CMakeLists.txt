@@ -48,21 +48,17 @@ else ( )
     set ( ${PROJECT_NAME}_TOOLCHAIN ${STATICLIB_TOOLCHAIN} )
 endif ( )
 
-if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_[^_]+_msvc" )
-    # openssl subproject
-    add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/resources/openssl_101e_cmake ${CMAKE_CURRENT_BINARY_DIR}/openssl )
-    add_custom_target ( ${PROJECT_NAME} DEPENDS openssl )
+# openssl subproject
+add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/resources/openssl_101e_cmake ${CMAKE_CURRENT_BINARY_DIR}/openssl )
+add_custom_target ( ${PROJECT_NAME} DEPENDS openssl )
 
-    # pkg-config
-    set ( ${PROJECT_NAME}_MODULE openssl )
-    set ( ${PROJECT_NAME}_PC_CFLAGS "-I${CMAKE_CURRENT_BINARY_DIR}/openssl/include" )
-    # curl requires it
-    set ( ${PROJECT_NAME}_PC_CFLAGS "${${PROJECT_NAME}_PC_CFLAGS} -I${CMAKE_CURRENT_BINARY_DIR}/openssl/include/openssl" )
-    set ( ${PROJECT_NAME}_PC_LIBS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -lopenssl" )
-    configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/pkg-config.in 
-            ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/openssl.pc )
-    configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/pkg-config.in 
-            ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/libssl.pc )
-else ( )
-    message ( FATAL_ERROR "Currently only windows builds are supported, please use older version" )
-endif ( )
+# pkg-config
+set ( ${PROJECT_NAME}_MODULE openssl )
+set ( ${PROJECT_NAME}_PC_CFLAGS "-I${CMAKE_CURRENT_BINARY_DIR}/openssl/include" )
+# curl requires it
+set ( ${PROJECT_NAME}_PC_CFLAGS "${${PROJECT_NAME}_PC_CFLAGS} -I${CMAKE_CURRENT_BINARY_DIR}/openssl/include/openssl" )
+set ( ${PROJECT_NAME}_PC_LIBS "-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY} -lopenssl" )
+configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/pkg-config.in 
+        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/openssl.pc )
+configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/pkg-config.in 
+        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/libssl.pc )

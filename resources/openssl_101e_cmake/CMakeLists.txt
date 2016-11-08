@@ -26,6 +26,10 @@ if ( NOT DEFINED STATICLIB_TOOLCHAIN )
             else ( )
                 set ( ${PROJECT_NAME}_TOOLCHAIN "windows_i386_msvc" )
             endif ( )
+        elseif ( APPLE )
+            set ( ${PROJECT_NAME}_TOOLCHAIN "macosx_amd64_clang" )
+        elseif ( UNIX )
+            set ( ${PROJECT_NAME}_TOOLCHAIN "linux_amd64_gcc" )
         else ( )
             message ( FATAL_ERROR "Cannot determine toolchain to use, please specify [${PROJECT_NAME}_TOOLCHAIN]" )
         endif ( )
@@ -122,6 +126,29 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_msvc" )
             -DNEAR
             -Ox
             -g )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_gcc" )
+    set ( ${PROJECT_NAME}_DEFINITIONS
+            -DOPENSSL_THREADS
+            -D_REENTRANT
+            -DL_ENDIAN
+            -DTERMIO
+            -DOPENSSL_IA32_SSE2
+            -DOPENSSL_BN_ASM_MONT
+            -DOPENSSL_BN_ASM_MONT5
+            -DOPENSSL_BN_ASM_GF2m
+            -DSHA1_ASM
+            -DSHA256_ASM
+            -DSHA512_ASM
+            -DMD5_ASM
+            -DAES_ASM
+            -DVPAES_ASM
+            -DBSAES_ASM
+            -DWHIRLPOOL_ASM
+            -DGHASH_ASM
+)
+
+else ( )
+    message ( FATAL_ERROR "Unsupported toolchain: [${PROJECT_NAME}_TOOLCHAIN]" )
 endif ( )
 
 # headers
@@ -130,7 +157,6 @@ message ( STATUS "Copying headers ..." )
 # private
 configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/e_os.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_os.h" COPYONLY )
 configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cryptlib.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/cryptlib.h" COPYONLY )
-#configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/buildinf.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/buildinf.h" COPYONLY )
 configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/md32_common.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/md32_common.h" COPYONLY )
 configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_time.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/o_time.h" COPYONLY )
 configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_str.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/o_str.h" COPYONLY )
@@ -306,14 +332,14 @@ set ( ${PROJECT_NAME}_CRYPTO_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_str.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_dir.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_fips.c
-        ${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_init.c
-        # ${${PROJECT_NAME}_SOURCE_DIR}/crypto/fips_ers.c 
-        )
+        ${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_init.c )
 set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_SRC} )
 source_group ( "crypto" FILES ${${PROJECT_NAME}_CRYPTO_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/x86cpuid.pl )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+    openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/x86_64cpuid.pl )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/x86_64cpuid.pl )
 endif ( )
 
@@ -332,7 +358,7 @@ set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_MD5_SR
 source_group ( "crypto_md5" FILES ${${PROJECT_NAME}_CRYPTO_MD5_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/md5/asm/md5-586.pl )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/md5/asm/md5-x86_64.pl )
 endif ( )
 
@@ -350,10 +376,12 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/asm/sha1-586.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/asm/sha256-586.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/asm/sha512-586.pl )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/asm/sha1-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/asm/sha512-x86_64.pl )
-    # special case for sha256
+endif ( )
+# special case for sha256
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
     add_custom_command ( OUTPUT sha256-x86_64.obj
             COMMAND set ASM=nasm -f win64 -DNEAR -Ox -g
             COMMAND perl ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/asm/sha512-x86_64.pl sha256-x86_64.asm
@@ -361,6 +389,14 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
     set_source_files_properties ( ${CMAKE_CURRENT_BINARY_DIR}/sha256-x86_64.asm PROPERTIES GENERATED 1 )
     set ( ${PROJECT_NAME}_ASMOBJ ${${PROJECT_NAME}_ASMOBJ} ${CMAKE_CURRENT_BINARY_DIR}/sha256-x86_64.obj )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_[^_]+" )
+    # special case for sha256
+    add_custom_command ( OUTPUT sha256-x86_64.s
+            COMMAND perl ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/asm/sha512-x86_64.pl elf > sha256-x86_64.s
+            WORKING_DIRECTORY ${PROJECT_BINARY_DIR} )
+    set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha256-x86_64.s PROPERTIES GENERATED 1 )
+    set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha256-x86_64.s PROPERTIES LANGUAGE C )
+    set ( ${PROJECT_NAME}_ASMOBJ ${${PROJECT_NAME}_ASMOBJ} ${PROJECT_BINARY_DIR}/sha256-x86_64.s )
 endif ( )
 
 # crypto/hmac
@@ -444,7 +480,7 @@ set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_RC4_SR
 source_group ( "crypto_rc4" FILES ${${PROJECT_NAME}_CRYPTO_RC4_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/asm/rc4-586.pl )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/asm/rc4-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/asm/rc4-md5-x86_64.pl )
 endif ( )
@@ -506,7 +542,7 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/asm/aes-586.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/asm/vpaes-x86.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/asm/aesni-x86.pl )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/asm/aes-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/asm/vpaes-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/asm/bsaes-x86_64.pl )
@@ -529,7 +565,7 @@ set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_CAMELL
 source_group ( "crypto_camellia" FILES ${${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/asm/cmll-x86.pl )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/asm/cmll-x86_64.pl )
 endif ( )
 
@@ -558,7 +594,7 @@ set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_MODES_
 source_group ( "crypto_modes" FILES ${${PROJECT_NAME}_CRYPTO_MODES_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/modes/asm/ghash-x86.pl )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/modes/asm/ghash-x86_64.pl )
 endif ( )
 
@@ -594,6 +630,9 @@ set ( ${PROJECT_NAME}_CRYPTO_BN_SRC
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
     set ( ${PROJECT_NAME}_CRYPTO_BN_SRC ${${PROJECT_NAME}_CRYPTO_BN_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_asm.c )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_gcc+" )
+    set ( ${PROJECT_NAME}_CRYPTO_BN_SRC ${${PROJECT_NAME}_CRYPTO_BN_SRC}
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/asm/x86_64-gcc.c )
 endif ( ) 
 set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_BN_SRC} )
 source_group ( "crypto_bn" FILES ${${PROJECT_NAME}_CRYPTO_BN_SRC} )
@@ -602,7 +641,7 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/asm/co-586.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/asm/x86-mont.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/asm/x86-gf2m.pl )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/asm/x86_64-mont.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/asm/x86_64-mont5.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/asm/x86_64-gf2m.pl )
@@ -1194,7 +1233,7 @@ set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_WHRLPO
 source_group ( "crypto_whrlpool" FILES ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/asm/wp-mmx.pl )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/asm/wp-x86_64.pl )
 endif ( )
 
