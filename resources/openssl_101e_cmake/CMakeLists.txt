@@ -144,9 +144,12 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_gcc" )
             -DVPAES_ASM
             -DBSAES_ASM
             -DWHIRLPOOL_ASM
-            -DGHASH_ASM
-)
-
+            -DGHASH_ASM )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+    set ( ${PROJECT_NAME}_DEFINITIONS
+            -DOPENSSL_THREADS
+            -D_REENTRANT
+            -DL_ENDIAN )
 else ( )
     message ( FATAL_ERROR "Unsupported toolchain: [${PROJECT_NAME}_TOOLCHAIN]" )
 endif ( )
@@ -333,6 +336,10 @@ set ( ${PROJECT_NAME}_CRYPTO_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_dir.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_fips.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_init.c )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+    set ( ${PROJECT_NAME}_CRYPTO_SRC ${${PROJECT_NAME}_CRYPTO_SRC}
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/mem_clr.c )
+endif ( ) 
 set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_SRC} )
 source_group ( "crypto" FILES ${${PROJECT_NAME}_CRYPTO_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
@@ -455,6 +462,10 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
     set ( ${PROJECT_NAME}_CRYPTO_DES_SRC ${${PROJECT_NAME}_CRYPTO_DES_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des_enc.c
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/fcrypt_b.c )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+    set ( ${PROJECT_NAME}_CRYPTO_DES_SRC ${${PROJECT_NAME}_CRYPTO_DES_SRC}
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des_enc.c
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/fcrypt_b.c )
 endif ( ) 
 set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_DES_SRC} )
 source_group ( "crypto_des" FILES ${${PROJECT_NAME}_CRYPTO_DES_SRC} )
@@ -476,6 +487,11 @@ source_group ( "crypto_rc2" FILES ${${PROJECT_NAME}_CRYPTO_RC2_SRC} )
 # crypto/rc4
 set ( ${PROJECT_NAME}_CRYPTO_RC4_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/rc4_utl.c )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+    set ( ${PROJECT_NAME}_CRYPTO_RC4_SRC ${${PROJECT_NAME}_CRYPTO_RC4_SRC}
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/rc4_enc.c
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/rc4_skey.c )
+endif ( )
 set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_RC4_SRC} )
 source_group ( "crypto_rc4" FILES ${${PROJECT_NAME}_CRYPTO_RC4_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
@@ -504,6 +520,9 @@ set ( ${PROJECT_NAME}_CRYPTO_BF_SRC
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
     set ( ${PROJECT_NAME}_CRYPTO_BF_SRC ${${PROJECT_NAME}_CRYPTO_BF_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_enc.c )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_amdeabi_gcc" )
+    set ( ${PROJECT_NAME}_CRYPTO_BF_SRC ${${PROJECT_NAME}_CRYPTO_BF_SRC}
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_enc.c )
 endif ( ) 
 set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_BF_SRC} )
 source_group ( "crypto_bf" FILES ${${PROJECT_NAME}_CRYPTO_BF_SRC} )
@@ -518,6 +537,9 @@ set ( ${PROJECT_NAME}_CRYPTO_CAST_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/c_cfb64.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/c_ofb64.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+    set ( ${PROJECT_NAME}_CRYPTO_CAST_SRC ${${PROJECT_NAME}_CRYPTO_CAST_SRC}
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/c_enc.c )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_amdeabi_gcc" )
     set ( ${PROJECT_NAME}_CRYPTO_CAST_SRC ${${PROJECT_NAME}_CRYPTO_CAST_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/c_enc.c )
 endif ( ) 
@@ -536,6 +558,11 @@ set ( ${PROJECT_NAME}_CRYPTO_AES_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes_ctr.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes_ige.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes_wrap.c )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" ) 
+    set ( ${PROJECT_NAME}_CRYPTO_AES_SRC ${${PROJECT_NAME}_CRYPTO_AES_SRC}
+        ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes_core.c
+        ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes_cbc.c )
+endif ( )
 set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_AES_SRC} )
 source_group ( "crypto_aes" FILES ${${PROJECT_NAME}_CRYPTO_AES_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
@@ -560,6 +587,11 @@ set ( ${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
     set ( ${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC ${${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/cmll_misc.c )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+    set ( ${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC ${${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC}
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/camellia.c 
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/cmll_misc.c 
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/cmll_cbc.c )
 endif ( ) 
 set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC} )
 source_group ( "crypto_camellia" FILES ${${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC} )
@@ -628,6 +660,9 @@ set ( ${PROJECT_NAME}_CRYPTO_BN_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_const.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_x931p.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+    set ( ${PROJECT_NAME}_CRYPTO_BN_SRC ${${PROJECT_NAME}_CRYPTO_BN_SRC}
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_asm.c )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
     set ( ${PROJECT_NAME}_CRYPTO_BN_SRC ${${PROJECT_NAME}_CRYPTO_BN_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_asm.c )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_gcc+" )
@@ -1226,6 +1261,9 @@ source_group ( "crypto_pqueue" FILES ${${PROJECT_NAME}_CRYPTO_PQUEUE_SRC} )
 set ( ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_dgst.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
+    set ( ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC}
+            ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_block.c )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
     set ( ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_block.c )
 endif ( ) 
