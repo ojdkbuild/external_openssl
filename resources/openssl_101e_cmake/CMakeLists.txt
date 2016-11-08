@@ -144,12 +144,14 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_gcc" )
             -DVPAES_ASM
             -DBSAES_ASM
             -DWHIRLPOOL_ASM
-            -DGHASH_ASM )
+            -DGHASH_ASM
+            -Dsecure_getenv=getenv )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
     set ( ${PROJECT_NAME}_DEFINITIONS
             -DOPENSSL_THREADS
             -D_REENTRANT
-            -DL_ENDIAN )
+            -DL_ENDIAN
+            -Dsecure_getenv=getenv )
 else ( )
     message ( FATAL_ERROR "Unsupported toolchain: [${PROJECT_NAME}_TOOLCHAIN]" )
 endif ( )
@@ -520,7 +522,7 @@ set ( ${PROJECT_NAME}_CRYPTO_BF_SRC
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
     set ( ${PROJECT_NAME}_CRYPTO_BF_SRC ${${PROJECT_NAME}_CRYPTO_BF_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_enc.c )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_amdeabi_gcc" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
     set ( ${PROJECT_NAME}_CRYPTO_BF_SRC ${${PROJECT_NAME}_CRYPTO_BF_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_enc.c )
 endif ( ) 
@@ -539,7 +541,7 @@ set ( ${PROJECT_NAME}_CRYPTO_CAST_SRC
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
     set ( ${PROJECT_NAME}_CRYPTO_CAST_SRC ${${PROJECT_NAME}_CRYPTO_CAST_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/c_enc.c )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_amdeabi_gcc" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
     set ( ${PROJECT_NAME}_CRYPTO_CAST_SRC ${${PROJECT_NAME}_CRYPTO_CAST_SRC}
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/c_enc.c )
 endif ( ) 
