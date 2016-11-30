@@ -160,153 +160,157 @@ endif ( )
 message ( STATUS "Copying headers ..." )
 
 # private
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/e_os.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_os.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cryptlib.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/cryptlib.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/md32_common.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/md32_common.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_time.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/o_time.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_str.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/o_str.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_dir.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/o_dir.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/constant_time_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/constant_time_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/md4/md4_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/md4_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/md5/md5_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/md5_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/sha_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/sha_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ripemd/rmd_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/rmd_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ripemd/rmdconst.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/rmdconst.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/des_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/rpc_des.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/rpc_des.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/spr.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/spr.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des_ver.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/des_ver.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc2/rc2_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/rc2_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/rc4_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/rc4_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/idea/idea_lcl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/idea_lcl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_pi.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/bf_pi.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/bf_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/cast_s.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/cast_s.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/cast_lcl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/cast_lcl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/aes_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/cmll_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/cmll_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/seed/seed_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/seed_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/modes/modes_lcl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/modes_lcl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_lcl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/bn_lcl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_prime.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/bn_prime.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/dsa/dsa_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/dsa_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ec/ec_lcl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/ec_lcl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdh/ech_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/ech_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdsa/ecs_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/ecs_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bio/bio_lcl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/bio_lcl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/objects/obj_dat.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/obj_dat.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/objects/obj_xref.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/obj_xref.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/evp/evp_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/evp_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/asn1/asn1_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/asn1_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509v3/pcy_int.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/pcy_int.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cms/cms_lcl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/cms_lcl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/conf/conf_def.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/conf_def.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ui/ui_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/ui_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/wp_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/ssl_locl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/ssl_locl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/kssl_lcl.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/kssl_lcl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/apps/apps.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/apps.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/apps/progs.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/progs.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/apps/s_apps.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/s_apps.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/apps/testdsa.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/testdsa.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/apps/testrsa.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/testrsa.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_4758cca_err.c" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_4758cca_err.c" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_4758cca_err.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_4758cca_err.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_aep_err.c" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_aep_err.c" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_aep_err.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_aep_err.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_atalla_err.c" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_atalla_err.c" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_atalla_err.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_atalla_err.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_cswift_err.c" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_cswift_err.c" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_cswift_err.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_cswift_err.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_gmp_err.c" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_gmp_err.c" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_gmp_err.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_gmp_err.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_chil_err.c" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_chil_err.c" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_chil_err.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_chil_err.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_nuron_err.c" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_nuron_err.c" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_nuron_err.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_nuron_err.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_sureware_err.c" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_sureware_err.c" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_sureware_err.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_sureware_err.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_ubsec_err.c" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_ubsec_err.c" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_ubsec_err.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_ubsec_err.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_capi_err.c" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_capi_err.c" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_capi_err.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/e_capi_err.h" COPYONLY )
-configure_file( "${CMAKE_CURRENT_LIST_DIR}/include_${${PROJECT_NAME}_TOOLCHAIN}/buildinf.h" "${CMAKE_CURRENT_BINARY_DIR}/include_private/buildinf.h" COPYONLY )
+
+file ( COPY
+        "${${PROJECT_NAME}_SOURCE_DIR}/e_os.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cryptlib.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/md32_common.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_time.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_str.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_dir.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/constant_time_locl.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/md4/md4_locl.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/md5/md5_locl.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/sha_locl.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ripemd/rmd_locl.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ripemd/rmdconst.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des_locl.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/rpc_des.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/spr.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des_ver.h"
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc2/rc2_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/rc4_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/idea/idea_lcl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_pi.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/cast_s.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/cast_lcl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/cmll_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/seed/seed_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/modes/modes_lcl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_lcl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_prime.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/dsa/dsa_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ec/ec_lcl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdh/ech_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdsa/ecs_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bio/bio_lcl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/objects/obj_dat.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/objects/obj_xref.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/evp/evp_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/asn1/asn1_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509v3/pcy_int.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cms/cms_lcl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/conf/conf_def.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ui/ui_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/ssl/ssl_locl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/ssl/kssl_lcl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/apps/apps.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/apps/progs.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/apps/s_apps.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/apps/testdsa.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/apps/testrsa.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_4758cca_err.c" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_4758cca_err.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_aep_err.c" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_aep_err.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_atalla_err.c" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_atalla_err.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_cswift_err.c" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_cswift_err.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_gmp_err.c" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_gmp_err.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_chil_err.c" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_chil_err.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_nuron_err.c" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_nuron_err.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_sureware_err.c" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_sureware_err.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_ubsec_err.c" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_ubsec_err.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_capi_err.c" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/engines/e_capi_err.h" 
+        "${CMAKE_CURRENT_LIST_DIR}/include_${${PROJECT_NAME}_TOOLCHAIN}/buildinf.h"
+        DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/include_private/" )
 
 # public
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/e_os2.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/e_os2.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/crypto.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/crypto.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/opensslv.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/opensslv.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/opensslconf.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/opensslconf.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ebcdic.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ebcdic.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/symhacks.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/symhacks.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ossl_typ.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ossl_typ.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/md4/md4.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/md4.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/md5/md5.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/md5.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/sha.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/sha.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/hmac/hmac.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/hmac.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cmac/cmac.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/cmac.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ripemd/ripemd.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ripemd.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/des.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des_old.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/des_old.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc2/rc2.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/rc2.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/rc4.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/rc4.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/idea/idea.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/idea.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/blowfish.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/blowfish.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/cast.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/cast.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/aes.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/camellia.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/camellia.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/seed/seed.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/seed.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/modes/modes.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/modes.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/bn.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rsa/rsa.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/rsa.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/dsa/dsa.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/dsa.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/dso/dso.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/dso.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/dh/dh.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/dh.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ec/ec.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ec.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdh/ecdh.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ecdh.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdsa/ecdsa.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ecdsa.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/buffer/buffer.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/buffer.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bio/bio.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/bio.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/stack/stack.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/stack.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/stack/safestack.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/safestack.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/lhash/lhash.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/lhash.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rand/rand.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/rand.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/err/err.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/err.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/objects/objects.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/objects.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/objects/obj_mac.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/obj_mac.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/evp/evp.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/evp.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/asn1/asn1.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/asn1.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/asn1/asn1_mac.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/asn1_mac.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/asn1/asn1t.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/asn1t.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/pem/pem.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/pem.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/pem/pem2.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/pem2.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509/x509.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/x509.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509/x509_vfy.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/x509_vfy.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509v3/x509v3.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/x509v3.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cms/cms.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/cms.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/conf/conf.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/conf.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/conf/conf_api.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/conf_api.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/txt_db/txt_db.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/txt_db.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/pkcs7/pkcs7.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/pkcs7.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/pkcs12/pkcs12.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/pkcs12.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/comp/comp.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/comp.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/engine/engine.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/engine.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ocsp/ocsp.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ocsp.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ui/ui.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ui.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ui/ui_compat.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ui_compat.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/krb5/krb5_asn.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/krb5_asn.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/pqueue/pqueue.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/pqueue.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/whrlpool.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/whrlpool.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ts/ts.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ts.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/ssl.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ssl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/ssl2.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ssl2.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/ssl3.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ssl3.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/ssl23.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/ssl23.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/tls1.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/tls1.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/dtls1.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/dtls1.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/kssl.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/kssl.h" COPYONLY )
-configure_file( "${${PROJECT_NAME}_SOURCE_DIR}/ssl/srtp.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/srtp.h" COPYONLY )
-configure_file( "${CMAKE_CURRENT_LIST_DIR}/include_${${PROJECT_NAME}_TOOLCHAIN}/opensslconf.h" "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/opensslconf.h" COPYONLY )
+file ( COPY
+        "${${PROJECT_NAME}_SOURCE_DIR}/e_os2.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/crypto.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/opensslv.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ebcdic.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/symhacks.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ossl_typ.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/md4/md4.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/md5/md5.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/sha.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/hmac/hmac.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cmac/cmac.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ripemd/ripemd.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des_old.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc2/rc2.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/rc4.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/idea/idea.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/blowfish.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/cast.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/camellia.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/seed/seed.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/modes/modes.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rsa/rsa.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/dsa/dsa.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/dso/dso.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/dh/dh.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ec/ec.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdh/ecdh.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdsa/ecdsa.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/buffer/buffer.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/bio/bio.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/stack/stack.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/stack/safestack.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/lhash/lhash.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/rand/rand.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/err/err.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/objects/objects.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/objects/obj_mac.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/evp/evp.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/asn1/asn1.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/asn1/asn1_mac.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/asn1/asn1t.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/pem/pem.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/pem/pem2.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509/x509.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509/x509_vfy.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509v3/x509v3.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/cms/cms.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/conf/conf.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/conf/conf_api.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/txt_db/txt_db.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/pkcs7/pkcs7.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/pkcs12/pkcs12.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/comp/comp.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/engine/engine.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ocsp/ocsp.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ui/ui.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ui/ui_compat.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/krb5/krb5_asn.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/pqueue/pqueue.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/whrlpool.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/crypto/ts/ts.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/ssl/ssl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/ssl/ssl2.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/ssl/ssl3.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/ssl/ssl23.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/ssl/tls1.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/ssl/dtls1.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/ssl/kssl.h" 
+        "${${PROJECT_NAME}_SOURCE_DIR}/ssl/srtp.h" 
+        "${CMAKE_CURRENT_LIST_DIR}/include_${${PROJECT_NAME}_TOOLCHAIN}/opensslconf.h" 
+        DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/include/openssl/" )
 
 # check deplibs cache
 if ( STATICLIB_USE_DEPLIBS_CACHE )
@@ -339,10 +343,10 @@ set ( ${PROJECT_NAME}_CRYPTO_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_fips.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/o_init.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
-    set ( ${PROJECT_NAME}_CRYPTO_SRC ${${PROJECT_NAME}_CRYPTO_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/mem_clr.c )
 endif ( ) 
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_SRC} )
 source_group ( "crypto" FILES ${${PROJECT_NAME}_CRYPTO_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/x86cpuid.pl )
@@ -356,14 +360,14 @@ endif ( )
 set ( ${PROJECT_NAME}_CRYPTO_MD4_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/md4/md4_dgst.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/md4/md4_one.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_MD4_SRC} )
+    list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_MD4_SRC} )
 source_group ( "crypto_md4" FILES ${${PROJECT_NAME}_CRYPTO_MD4_SRC} )
 
 # crypto/md5 
 set ( ${PROJECT_NAME}_CRYPTO_MD5_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/md5/md5_dgst.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/md5/md5_one.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_MD5_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_MD5_SRC} )
 source_group ( "crypto_md5" FILES ${${PROJECT_NAME}_CRYPTO_MD5_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/md5/asm/md5-586.pl )
@@ -379,7 +383,7 @@ set ( ${PROJECT_NAME}_CRYPTO_SHA_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/sha1_one.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/sha256.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/sha512.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_SHA_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_SHA_SRC} )
 source_group ( "crypto_sha" FILES ${${PROJECT_NAME}_CRYPTO_SHA_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/sha/asm/sha1-586.pl )
@@ -397,7 +401,7 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
             COMMAND nasm ${${PROJECT_NAME}_ASM_NASM_OPTIONS} -o sha256-x86_64.obj sha256-x86_64.asm
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
     set_source_files_properties ( ${CMAKE_CURRENT_BINARY_DIR}/sha256-x86_64.asm PROPERTIES GENERATED 1 )
-    set ( ${PROJECT_NAME}_ASMOBJ ${${PROJECT_NAME}_ASMOBJ} ${CMAKE_CURRENT_BINARY_DIR}/sha256-x86_64.obj )
+list ( APPEND ${PROJECT_NAME}_ASMOBJ ${CMAKE_CURRENT_BINARY_DIR}/sha256-x86_64.obj )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_[^_]+" )
     # special case for sha256
     add_custom_command ( OUTPUT sha256-x86_64.s
@@ -405,7 +409,7 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_[^_]+" )
             WORKING_DIRECTORY ${PROJECT_BINARY_DIR} )
     set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha256-x86_64.s PROPERTIES GENERATED 1 )
     set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha256-x86_64.s PROPERTIES LANGUAGE C )
-    set ( ${PROJECT_NAME}_ASMOBJ ${${PROJECT_NAME}_ASMOBJ} ${PROJECT_BINARY_DIR}/sha256-x86_64.s )
+    list ( APPEND ${PROJECT_NAME}_ASMOBJ ${PROJECT_BINARY_DIR}/sha256-x86_64.s )
 endif ( )
 
 # crypto/hmac
@@ -413,7 +417,7 @@ set ( ${PROJECT_NAME}_CRYPTO_HMAC_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/hmac/hmac.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/hmac/hm_ameth.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/hmac/hm_pmeth.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_HMAC_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_HMAC_SRC} )
 source_group ( "crypto_hmac" FILES ${${PROJECT_NAME}_CRYPTO_HMAC_SRC} )
 
 # crypto/cmac
@@ -421,14 +425,14 @@ set ( ${PROJECT_NAME}_CRYPTO_CMAC_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cmac/cmac.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cmac/cm_ameth.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cmac/cm_pmeth.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_CMAC_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_CMAC_SRC} )
 source_group ( "crypto_cmac" FILES ${${PROJECT_NAME}_CRYPTO_CMAC_SRC} )
 
 # crypto/ripemd
 set ( ${PROJECT_NAME}_CRYPTO_RIPEMD_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ripemd/rmd_dgst.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ripemd/rmd_one.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_RIPEMD_SRC} )
+    list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_RIPEMD_SRC} )
 source_group ( "crypto_ripemd" FILES ${${PROJECT_NAME}_CRYPTO_RIPEMD_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ripemd/asm/rmd-586.pl )
@@ -461,15 +465,15 @@ set ( ${PROJECT_NAME}_CRYPTO_DES_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des_old2.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/read2pwd.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
-    set ( ${PROJECT_NAME}_CRYPTO_DES_SRC ${${PROJECT_NAME}_CRYPTO_DES_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_DES_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des_enc.c
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/fcrypt_b.c )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
-    set ( ${PROJECT_NAME}_CRYPTO_DES_SRC ${${PROJECT_NAME}_CRYPTO_DES_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_DES_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/des_enc.c
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/fcrypt_b.c )
 endif ( ) 
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_DES_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_DES_SRC} )
 source_group ( "crypto_des" FILES ${${PROJECT_NAME}_CRYPTO_DES_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/des/asm/des-586.pl )
@@ -483,18 +487,18 @@ set ( ${PROJECT_NAME}_CRYPTO_RC2_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc2/rc2_cbc.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc2/rc2cfb64.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc2/rc2ofb64.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_RC2_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_RC2_SRC} )
 source_group ( "crypto_rc2" FILES ${${PROJECT_NAME}_CRYPTO_RC2_SRC} )
 
 # crypto/rc4
 set ( ${PROJECT_NAME}_CRYPTO_RC4_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/rc4_utl.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
-    set ( ${PROJECT_NAME}_CRYPTO_RC4_SRC ${${PROJECT_NAME}_CRYPTO_RC4_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_RC4_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/rc4_enc.c
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/rc4_skey.c )
 endif ( )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_RC4_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_RC4_SRC} )
 source_group ( "crypto_rc4" FILES ${${PROJECT_NAME}_CRYPTO_RC4_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rc4/asm/rc4-586.pl )
@@ -510,7 +514,7 @@ set ( ${PROJECT_NAME}_CRYPTO_IDEA_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/idea/i_ofb64.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/idea/i_ecb.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/idea/i_skey.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_IDEA_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_IDEA_SRC} )
 source_group ( "crypto_idea" FILES ${${PROJECT_NAME}_CRYPTO_IDEA_SRC} )
 
 # crypto/bf
@@ -520,13 +524,13 @@ set ( ${PROJECT_NAME}_CRYPTO_BF_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_cfb64.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_ofb64.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
-    set ( ${PROJECT_NAME}_CRYPTO_BF_SRC ${${PROJECT_NAME}_CRYPTO_BF_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_BF_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_enc.c )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
-    set ( ${PROJECT_NAME}_CRYPTO_BF_SRC ${${PROJECT_NAME}_CRYPTO_BF_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_BF_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/bf_enc.c )
 endif ( ) 
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_BF_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_BF_SRC} )
 source_group ( "crypto_bf" FILES ${${PROJECT_NAME}_CRYPTO_BF_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bf/asm/bf-586.pl )
@@ -539,13 +543,13 @@ set ( ${PROJECT_NAME}_CRYPTO_CAST_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/c_cfb64.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/c_ofb64.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
-    set ( ${PROJECT_NAME}_CRYPTO_CAST_SRC ${${PROJECT_NAME}_CRYPTO_CAST_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_CAST_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/c_enc.c )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
-    set ( ${PROJECT_NAME}_CRYPTO_CAST_SRC ${${PROJECT_NAME}_CRYPTO_CAST_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_CAST_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/c_enc.c )
 endif ( ) 
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_CAST_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_CAST_SRC} )
 source_group ( "crypto_cast" FILES ${${PROJECT_NAME}_CRYPTO_CAST_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cast/asm/cast-586.pl )
@@ -561,11 +565,11 @@ set ( ${PROJECT_NAME}_CRYPTO_AES_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes_ige.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes_wrap.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" ) 
-    set ( ${PROJECT_NAME}_CRYPTO_AES_SRC ${${PROJECT_NAME}_CRYPTO_AES_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_AES_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes_core.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/aes_cbc.c )
 endif ( )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_AES_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_AES_SRC} )
 source_group ( "crypto_aes" FILES ${${PROJECT_NAME}_CRYPTO_AES_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/aes/asm/aes-586.pl )
@@ -587,15 +591,15 @@ set ( ${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/cmll_ctr.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/cmll_utl.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
-    set ( ${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC ${${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/cmll_misc.c )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
-    set ( ${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC ${${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/camellia.c 
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/cmll_misc.c 
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/cmll_cbc.c )
 endif ( ) 
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC} )
 source_group ( "crypto_camellia" FILES ${${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/camellia/asm/cmll-x86.pl )
@@ -610,7 +614,7 @@ set ( ${PROJECT_NAME}_CRYPTO_SEED_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/seed/seed_cbc.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/seed/seed_cfb.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/seed/seed_ofb.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_SEED_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_SEED_SRC} )
 source_group ( "crypto_seed" FILES ${${PROJECT_NAME}_CRYPTO_SEED_SRC} )
 
 # crypto/modes
@@ -624,7 +628,7 @@ set ( ${PROJECT_NAME}_CRYPTO_MODES_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/modes/ccm128.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/modes/xts128.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/modes/wrap128.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_MODES_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_MODES_SRC} )
 source_group ( "crypto_modes" FILES ${${PROJECT_NAME}_CRYPTO_MODES_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/modes/asm/ghash-x86.pl )
@@ -662,16 +666,16 @@ set ( ${PROJECT_NAME}_CRYPTO_BN_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_const.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_x931p.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
-    set ( ${PROJECT_NAME}_CRYPTO_BN_SRC ${${PROJECT_NAME}_CRYPTO_BN_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_BN_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_asm.c )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
-    set ( ${PROJECT_NAME}_CRYPTO_BN_SRC ${${PROJECT_NAME}_CRYPTO_BN_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_BN_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/bn_asm.c )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_gcc+" )
-    set ( ${PROJECT_NAME}_CRYPTO_BN_SRC ${${PROJECT_NAME}_CRYPTO_BN_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_BN_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/asm/x86_64-gcc.c )
 endif ( ) 
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_BN_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_BN_SRC} )
 source_group ( "crypto_bn" FILES ${${PROJECT_NAME}_CRYPTO_BN_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bn/asm/bn-586.pl )
@@ -707,7 +711,7 @@ set ( ${PROJECT_NAME}_CRYPTO_RSA_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rsa/rsa_prn.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rsa/rsa_pmeth.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rsa/rsa_crpt.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_RSA_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_RSA_SRC} )
 source_group ( "crypto_rsa" FILES ${${PROJECT_NAME}_CRYPTO_RSA_SRC} )
 
 # crypto/dsa
@@ -724,7 +728,7 @@ set ( ${PROJECT_NAME}_CRYPTO_DSA_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/dsa/dsa_ameth.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/dsa/dsa_pmeth.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/dsa/dsa_prn.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_DSA_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_DSA_SRC} )
 source_group ( "crypto_dsa" FILES ${${PROJECT_NAME}_CRYPTO_DSA_SRC} )
 
 # crypto/dso
@@ -738,7 +742,7 @@ set ( ${PROJECT_NAME}_CRYPTO_DSO_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/dso/dso_win32.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/dso/dso_vms.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/dso/dso_beos.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_DSO_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_DSO_SRC} )
 source_group ( "crypto_dso" FILES ${${PROJECT_NAME}_CRYPTO_DSO_SRC} )
 
 # crypto/dh
@@ -753,7 +757,7 @@ set ( ${PROJECT_NAME}_CRYPTO_DH_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/dh/dh_ameth.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/dh/dh_pmeth.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/dh/dh_prn.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_DH_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_DH_SRC} )
 source_group ( "crypto_dh" FILES ${${PROJECT_NAME}_CRYPTO_DH_SRC} )
 
 # crypto/ec
@@ -782,7 +786,7 @@ set ( ${PROJECT_NAME}_CRYPTO_EC_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ec/ecp_oct.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ec/ec2_oct.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ec/ec_oct.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_EC_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_EC_SRC} )
 source_group ( "crypto_ec" FILES ${${PROJECT_NAME}_CRYPTO_EC_SRC} )
 
 
@@ -792,7 +796,7 @@ set ( ${PROJECT_NAME}_CRYPTO_ECDH_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdh/ech_ossl.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdh/ech_key.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdh/ech_err.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_ECDH_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_ECDH_SRC} )
 source_group ( "crypto_ecdh" FILES ${${PROJECT_NAME}_CRYPTO_ECDH_SRC} )
 
 # crypto/ecdsa
@@ -803,7 +807,7 @@ set ( ${PROJECT_NAME}_CRYPTO_ECDSA_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdsa/ecs_sign.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdsa/ecs_vrf.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ecdsa/ecs_err.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_ECDSA_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_ECDSA_SRC} )
 source_group ( "crypto_ecdsa" FILES ${${PROJECT_NAME}_CRYPTO_ECDSA_SRC} )
 
 # crypto/buffer
@@ -811,7 +815,7 @@ set ( ${PROJECT_NAME}_CRYPTO_BUFFER_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/buffer/buffer.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/buffer/buf_str.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/buffer/buf_err.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_BUFFER_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_BUFFER_SRC} )
 source_group ( "crypto_buffer" FILES ${${PROJECT_NAME}_CRYPTO_BUFFER_SRC} )
 
 # crypto/bio
@@ -835,20 +839,20 @@ set ( ${PROJECT_NAME}_CRYPTO_BIO_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bio/bss_log.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bio/bss_bio.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/bio/bss_dgram.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_BIO_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_BIO_SRC} )
 source_group ( "crypto_bio" FILES ${${PROJECT_NAME}_CRYPTO_BIO_SRC} )
 
 # crypto/stack
 set ( ${PROJECT_NAME}_CRYPTO_STACK_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/stack/stack.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_STACK_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_STACK_SRC} )
 source_group ( "crypto_stack" FILES ${${PROJECT_NAME}_CRYPTO_STACK_SRC} )
 
 # crypto/lhash
 set ( ${PROJECT_NAME}_CRYPTO_LHASH_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/lhash/lhash.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/lhash/lh_stats.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_LHASH_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_LHASH_SRC} )
 source_group ( "crypto_lhash" FILES ${${PROJECT_NAME}_CRYPTO_LHASH_SRC} )
 
 # crypto/rand
@@ -862,7 +866,7 @@ set ( ${PROJECT_NAME}_CRYPTO_RAND_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rand/rand_unix.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rand/rand_os2.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/rand/rand_nw.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_RAND_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_RAND_SRC} )
 source_group ( "crypto_rand" FILES ${${PROJECT_NAME}_CRYPTO_RAND_SRC} )
 
 # crypto/err
@@ -870,7 +874,7 @@ set ( ${PROJECT_NAME}_CRYPTO_ERR_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/err/err.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/err/err_all.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/err/err_prn.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_ERR_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_ERR_SRC} )
 source_group ( "crypto_err" FILES ${${PROJECT_NAME}_CRYPTO_ERR_SRC} )
 
 # crypto/objects
@@ -880,7 +884,7 @@ set ( ${PROJECT_NAME}_CRYPTO_OBJECTS_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/objects/obj_lib.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/objects/obj_err.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/objects/obj_xref.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_OBJECTS_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_OBJECTS_SRC} )
 source_group ( "crypto_objects" FILES ${${PROJECT_NAME}_CRYPTO_OBJECTS_SRC} )
 
 # crypto/evp
@@ -942,7 +946,7 @@ set ( ${PROJECT_NAME}_CRYPTO_EVP_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/evp/m_sigver.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/evp/e_aes_cbc_hmac_sha1.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/evp/e_rc4_hmac_md5.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_EVP_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_EVP_SRC} )
 source_group ( "crypto_evp" FILES ${${PROJECT_NAME}_CRYPTO_EVP_SRC} )
 
 # crypto/asn1
@@ -1024,7 +1028,7 @@ set ( ${PROJECT_NAME}_CRYPTO_ASN1_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/asn1/p5_pbev2.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/asn1/p8_pkey.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/asn1/asn_moid.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_ASN1_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_ASN1_SRC} )
 source_group ( "crypto_asn1" FILES ${${PROJECT_NAME}_CRYPTO_ASN1_SRC} )
 
 # crypto/pem
@@ -1041,7 +1045,7 @@ set ( ${PROJECT_NAME}_CRYPTO_PEM_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/pem/pem_pk8.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/pem/pem_pkey.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/pem/pvkfmt.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_PEM_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_PEM_SRC} )
 source_group ( "crypto_pem" FILES ${${PROJECT_NAME}_CRYPTO_PEM_SRC} )
 
 # crypto/x509
@@ -1070,7 +1074,7 @@ set ( ${PROJECT_NAME}_CRYPTO_X509_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509/by_file.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509/by_dir.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509/x509_vpm.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_X509_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_X509_SRC} )
 source_group ( "crypto_x509" FILES ${${PROJECT_NAME}_CRYPTO_X509_SRC} )
 
 # crypto/x509v3
@@ -1111,7 +1115,7 @@ set ( ${PROJECT_NAME}_CRYPTO_X509V3_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509v3/pcy_lib.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509v3/v3_asid.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/x509v3/v3_addr.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_X509V3_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_X509V3_SRC} )
 source_group ( "crypto_x509v3" FILES ${${PROJECT_NAME}_CRYPTO_X509V3_SRC} )
 
 # crypto/cms
@@ -1129,7 +1133,7 @@ set ( ${PROJECT_NAME}_CRYPTO_CMS_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cms/cms_enc.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cms/cms_ess.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/cms/cms_pwri.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_CMS_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_CMS_SRC} )
 source_group ( "crypto_cms" FILES ${${PROJECT_NAME}_CRYPTO_CMS_SRC} )
 
 # crypto/conf
@@ -1141,13 +1145,13 @@ set ( ${PROJECT_NAME}_CRYPTO_CONF_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/conf/conf_mod.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/conf/conf_mall.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/conf/conf_sap.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_CONF_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_CONF_SRC} )
 source_group ( "crypto_conf" FILES ${${PROJECT_NAME}_CRYPTO_CONF_SRC} )
 
 # crypto/txt_db
 set ( ${PROJECT_NAME}_CRYPTO_TXTDB_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/txt_db/txt_db.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_TXTDB_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_TXTDB_SRC} )
 source_group ( "crypto_txtdb" FILES ${${PROJECT_NAME}_CRYPTO_TXTDB_SRC} )
 
 # crypto/pkcs7
@@ -1160,7 +1164,7 @@ set ( ${PROJECT_NAME}_CRYPTO_PKCS7_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/pkcs7/pk7_attr.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/pkcs7/pk7_mime.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/pkcs7/bio_pk7.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_PKCS7_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_PKCS7_SRC} )
 source_group ( "crypto_pkcs7" FILES ${${PROJECT_NAME}_CRYPTO_PKCS7_SRC} )
 
 # crypto/pkcs12
@@ -1180,7 +1184,7 @@ set ( ${PROJECT_NAME}_CRYPTO_PKCS12_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/pkcs12/pk12err.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/pkcs12/p12_p8d.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/pkcs12/p12_p8e.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_PKCS12_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_PKCS12_SRC} )
 source_group ( "crypto_pkcs12" FILES ${${PROJECT_NAME}_CRYPTO_PKCS12_SRC} )
 
 # crypto/comp
@@ -1189,7 +1193,7 @@ set ( ${PROJECT_NAME}_CRYPTO_COMP_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/comp/comp_err.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/comp/c_rle.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/comp/c_zlib.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_COMP_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_COMP_SRC} )
 source_group ( "crypto_comp" FILES ${${PROJECT_NAME}_CRYPTO_COMP_SRC} )
 
 # crypto/engine
@@ -1220,7 +1224,7 @@ set ( ${PROJECT_NAME}_CRYPTO_ENGINE_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/engine/eng_cryptodev.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/engine/eng_rsax.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/engine/eng_rdrand.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_ENGINE_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_ENGINE_SRC} )
 source_group ( "crypto_engine" FILES ${${PROJECT_NAME}_CRYPTO_ENGINE_SRC} )
 
 # crypto/ocsp
@@ -1234,7 +1238,7 @@ set ( ${PROJECT_NAME}_CRYPTO_OCSP_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ocsp/ocsp_prn.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ocsp/ocsp_vfy.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ocsp/ocsp_err.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_OCSP_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_OCSP_SRC} )
 source_group ( "crypto_ocsp" FILES ${${PROJECT_NAME}_CRYPTO_OCSP_SRC} )
 
 # crypto/ui
@@ -1244,32 +1248,32 @@ set ( ${PROJECT_NAME}_CRYPTO_UI_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ui/ui_openssl.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ui/ui_util.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ui/ui_compat.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_UI_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_UI_SRC} )
 source_group ( "crypto_ui" FILES ${${PROJECT_NAME}_CRYPTO_UI_SRC} )
 
 # crypto/krb5
 set ( ${PROJECT_NAME}_CRYPTO_KRB5_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/krb5/krb5_asn.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_KRB5_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_KRB5_SRC} )
 source_group ( "crypto_krb5" FILES ${${PROJECT_NAME}_CRYPTO_KRB5_SRC} )
 
 # crypto/pqueue
 set ( ${PROJECT_NAME}_CRYPTO_PQUEUE_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/pqueue/pqueue.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_PQUEUE_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_PQUEUE_SRC} )
 source_group ( "crypto_pqueue" FILES ${${PROJECT_NAME}_CRYPTO_PQUEUE_SRC} )
 
 # crypto/whrlpool
 set ( ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC 
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_dgst.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
-    set ( ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_block.c )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
-    set ( ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC}
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC
             ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/wp_block.c )
 endif ( ) 
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC} )
 source_group ( "crypto_whrlpool" FILES ${${PROJECT_NAME}_CRYPTO_WHRLPOOL_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_SOURCE_DIR}/crypto/whrlpool/asm/wp-mmx.pl )
@@ -1290,7 +1294,7 @@ set ( ${PROJECT_NAME}_CRYPTO_TS_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ts/ts_lib.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ts/ts_conf.c
         ${${PROJECT_NAME}_SOURCE_DIR}/crypto/ts/ts_asn1.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_CRYPTO_TS_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_TS_SRC} )
 source_group ( "crypto_ts" FILES ${${PROJECT_NAME}_CRYPTO_TS_SRC} )
 
 # engines
@@ -1306,7 +1310,7 @@ set ( ${PROJECT_NAME}_ENGINES_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/engines/e_ubsec.c
         ${${PROJECT_NAME}_SOURCE_DIR}/engines/e_padlock.c
         ${${PROJECT_NAME}_SOURCE_DIR}/engines/e_capi.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_ENGINES_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_ENGINES_SRC} )
 source_group ( "engines" FILES ${${PROJECT_NAME}_ENGINES_SRC} )
 
 # ssl
@@ -1357,7 +1361,7 @@ set ( ${PROJECT_NAME}_SSL_SRC
         ${${PROJECT_NAME}_SOURCE_DIR}/ssl/ssl_err.c
         ${${PROJECT_NAME}_SOURCE_DIR}/ssl/kssl.c
         ${${PROJECT_NAME}_SOURCE_DIR}/ssl/t1_reneg.c )
-set ( ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_SSL_SRC} )
+list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SSL_SRC} )
 source_group ( "ssl" FILES ${${PROJECT_NAME}_SSL_SRC} )
 
 # library
