@@ -31,6 +31,7 @@ endif ( )
 
 # openssl subproject
 add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/resources/openssl_101e_cmake ${CMAKE_CURRENT_BINARY_DIR}/openssl )
+set_target_properties ( openssl PROPERTIES FOLDER "deps" )
 add_custom_target ( ${PROJECT_NAME} DEPENDS openssl )
 
 # pkg-config
