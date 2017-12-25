@@ -1,6 +1,9 @@
 OpenSSL library build for Staticlibs
 ====================================
 
+[![travis](https://travis-ci.org/staticlibs/external_openssl.svg?branch=master)](https://travis-ci.org/staticlibs/external_openssl)
+[![appveyor](https://ci.appveyor.com/api/projects/status/github/staticlibs/external_openssl?svg=true)](https://ci.appveyor.com/project/staticlibs/external-openssl)
+
 This project is a part of [Staticlibs](http://staticlibs.net/).
 
 This project contains a CMake wrapper for [OpenSSL library](https://www.openssl.org/). 
@@ -43,6 +46,10 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2017-12-25**
+ * version 1.0.1e-5
+ * vs2017 support
 
 **2016-11-08**
 
