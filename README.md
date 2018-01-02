@@ -1,6 +1,7 @@
 OpenSSL library build for Staticlibs
 ====================================
 
+[![travis](https://travis-ci.org/staticlibs/external_openssl.svg?branch=master)](https://travis-ci.org/staticlibs/external_openssl)
 [![appveyor](https://ci.appveyor.com/api/projects/status/github/staticlibs/external_openssl?svg=true)](https://ci.appveyor.com/project/staticlibs/external-openssl)
 
 This project is a part of [Staticlibs](http://staticlibs.net/).
