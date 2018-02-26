@@ -27,10 +27,10 @@ install:
   - git clone https://github.com/staticlibs/android-ndk-r9d-arm-linux-androideabi-4.8.git ../android-ndk
 
 before_script:
-  - git submodule update --init --recursive
   - cd ..
   - git clone https://github.com/staticlibs/cmake.git
   - git clone https://github.com/staticlibs/staticlib_config.git
+  - git clone https://github.com/staticlibs/lookaside_openssl.git
 
 script:
   - set -e

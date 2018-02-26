@@ -22,7 +22,6 @@ environment:
 clone_folder: c:\projects\external_openssl
 
 install:
-  - git submodule update --init --recursive
   - cd ..
   - git clone https://github.com/staticlibs/tools_windows_pkgconfig.git
   - git clone https://github.com/staticlibs/tools_windows_perl.git
@@ -30,6 +29,7 @@ install:
   - set PATH=%PATH%;c:\projects\tools_windows_pkgconfig\bin;c:\projects\tools_windows_perl\perl\bin;c:\projects\tools_windows_nasm
   - git clone https://github.com/staticlibs/cmake.git
   - git clone https://github.com/staticlibs/staticlib_config.git
+  - git clone https://github.com/staticlibs/lookaside_openssl.git
 
 build: off
 

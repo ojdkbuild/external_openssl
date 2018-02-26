@@ -16,13 +16,10 @@ cmake_minimum_required ( VERSION 2.8.12 )
 
 # project
 project ( external_openssl C CXX )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.1e-5 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.2k-1 )
 set ( ${PROJECT_NAME}_DESCRIPTION "OpenSSL library build for Staticlibs" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/external_openssl.git )
 include ( ${CMAKE_CURRENT_LIST_DIR}/resources/macros.cmake )
-
-# options, use SET ( OPTNAME ON CACHE BOOL "") to override
-option ( STATICLIB_OPENSSL_SHARED "Use 'shared' or 'no-shared' OpenSSL flag" OFF )
 
 # standalone build
 if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
@@ -30,7 +27,7 @@ if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
 endif ( )
 
 # openssl subproject
-add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/resources/openssl_101e_cmake ${CMAKE_CURRENT_BINARY_DIR}/openssl )
+add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/resources/openssl_cmake ${CMAKE_CURRENT_BINARY_DIR}/openssl )
 set_target_properties ( openssl PROPERTIES FOLDER "deps" )
 add_custom_target ( ${PROJECT_NAME} DEPENDS openssl )
 
