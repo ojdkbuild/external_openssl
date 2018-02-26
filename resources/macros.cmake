@@ -58,6 +58,13 @@ macro ( ${PROJECT_NAME}_asm_compile _path )
         set_source_files_properties ( ${PROJECT_BINARY_DIR}/${_name}.s PROPERTIES GENERATED 1 )
         set_source_files_properties ( ${PROJECT_BINARY_DIR}/${_name}.s PROPERTIES LANGUAGE C )
         set ( ${PROJECT_NAME}_ASMOBJ ${${PROJECT_NAME}_ASMOBJ} ${PROJECT_BINARY_DIR}/${_name}.s )
+    elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+        add_custom_command ( OUTPUT ${_name}.S
+                COMMAND perl ${_dir}/${_name}.pl void ${_name}.S
+                WORKING_DIRECTORY ${PROJECT_BINARY_DIR} )
+        set_source_files_properties ( ${PROJECT_BINARY_DIR}/${_name}.S PROPERTIES GENERATED 1 )
+        set_source_files_properties ( ${PROJECT_BINARY_DIR}/${_name}.S PROPERTIES LANGUAGE C )
+        set ( ${PROJECT_NAME}_ASMOBJ ${${PROJECT_NAME}_ASMOBJ} ${PROJECT_BINARY_DIR}/${_name}.S )
     else ( )
         message ( FATAL_ERROR "Unsupported toolchain for NASM: [${${PROJECT_NAME}_TOOLCHAIN}]" )
     endif ( )

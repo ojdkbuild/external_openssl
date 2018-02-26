@@ -137,33 +137,29 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_msvc" )
             -g )
     set ( ${PROJECT_NAME}_OPTIONS
             /wd4090 )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_gcc" )
-# TODO
-    set ( ${PROJECT_NAME}_DEFINITIONS
-            -DOPENSSL_THREADS
-            -D_REENTRANT
-            -DL_ENDIAN
-            -DTERMIO
-            -DOPENSSL_IA32_SSE2
-            -DOPENSSL_BN_ASM_MONT
-            -DOPENSSL_BN_ASM_MONT5
-            -DOPENSSL_BN_ASM_GF2m
-            -DSHA1_ASM
-            -DSHA256_ASM
-            -DSHA512_ASM
-            -DMD5_ASM
-            -DAES_ASM
-            -DVPAES_ASM
-            -DBSAES_ASM
-            -DWHIRLPOOL_ASM
-            -DGHASH_ASM
-            -Dsecure_getenv=getenv )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
     set ( ${PROJECT_NAME}_DEFINITIONS
             -DOPENSSL_THREADS
             -D_REENTRANT
             -DL_ENDIAN
-            -Dsecure_getenv=getenv )
+            -DOPENSSL_BN_ASM_MONT
+            -DOPENSSL_BN_ASM_GF2m
+            -DSHA1_ASM
+            -DSHA256_ASM
+            -DSHA512_ASM
+            -DAES_ASM
+            -DBSAES_ASM
+            -DGHASH_ASM
+            -DOPENSSL_NO_RC5
+            -DOPENSSL_NO_MDC2
+            -DOPENSSL_NO_SSL2
+            -DOPENSSL_NO_SRP
+            -DOPENSSL_NO_KRB5
+            -DOPENSSL_NO_GOST
+            -DOPENSSL_NO_JPAKE
+            -DOPENSSL_NO_EC2M
+            -DOPENSSL_NO_WEAK_SSL_CIPHERS
+            -DOPENSSL_NO_DYNAMIC_ENGINE )
 else ( )
     message ( FATAL_ERROR "Unsupported toolchain: [${PROJECT_NAME}_TOOLCHAIN]" )
 endif ( )
@@ -358,7 +354,8 @@ set ( ${PROJECT_NAME}_CRYPTO_SRC
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/o_init.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
     list ( APPEND ${PROJECT_NAME}_CRYPTO_SRC
-            ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/mem_clr.c )
+            ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/armv4cpuid.S )
+    set_source_files_properties ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/armv4cpuid.S PROPERTIES LANGUAGE C )
 endif ( ) 
 list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_SRC} )
 source_group ( "crypto" FILES ${${PROJECT_NAME}_CRYPTO_SRC} )
@@ -415,6 +412,10 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha512-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha1-mb-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha256-mb-x86_64.pl )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha1-armv4-large.pl )
+    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha256-armv4.pl )
+    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha512-armv4.pl )
 endif ( )
 # special case for sha256
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
@@ -589,7 +590,6 @@ set ( ${PROJECT_NAME}_CRYPTO_AES_SRC
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/aes/aes_wrap.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" ) 
     list ( APPEND ${PROJECT_NAME}_CRYPTO_AES_SRC
-        ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/aes/aes_core.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/aes/aes_cbc.c )
 endif ( )
 list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_AES_SRC} )
@@ -606,6 +606,10 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/aes/asm/aesni-sha1-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/aes/asm/aesni-sha256-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/aes/asm/aesni-mb-x86_64.pl )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/aes/asm/aes-armv4.pl )
+    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/aes/asm/bsaes-armv7.pl )
+    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/aes/asm/aesv8-armx.pl )
 endif ( )
 
 # crypto/camellia
@@ -660,6 +664,9 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/modes/asm/ghash-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/modes/asm/aesni-gcm-x86_64.pl )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/modes/asm/ghash-armv4.pl )
+    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/modes/asm/ghashv8-armx.pl )
 endif ( )
 
 # crypto/bn
@@ -715,6 +722,9 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bn/asm/x86_64-gf2m.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bn/asm/rsaz-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bn/asm/rsaz-avx2.pl )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bn/asm/armv4-mont.pl )
+    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bn/asm/armv4-gf2m.pl )
 endif ( )
 
 # crypto/rsa
@@ -1408,7 +1418,8 @@ add_library ( ${PROJECT_NAME} STATIC
         ${${PROJECT_NAME}_ASMOBJ} )
 target_include_directories ( ${PROJECT_NAME} BEFORE PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}/include
-    ${CMAKE_CURRENT_BINARY_DIR}/include_private )
+    ${CMAKE_CURRENT_BINARY_DIR}/include_private
+    ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto )
 target_compile_definitions ( ${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_DEFINITIONS} )
 target_compile_options ( ${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_OPTIONS} )
 add_custom_target ( ${PROJECT_NAME}_asm DEPENDS ${${PROJECT_NAME}_ASMOBJ} )
