@@ -18,7 +18,7 @@ sudo: required
 
 os:
   - linux
-#  - osx
+  - osx
 
 before_install:
   - export CC=

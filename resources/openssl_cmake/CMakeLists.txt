@@ -192,6 +192,37 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_gcc" )
             -DOPENSSL_NO_EC2M
             -DOPENSSL_NO_WEAK_SSL_CIPHERS
             -DOPENSSL_NO_DYNAMIC_ENGINE )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "macosx_amd64_clang" )
+    set ( ${PROJECT_NAME}_DEFINITIONS
+            -DOPENSSL_THREADS
+            -D_REENTRANT
+            -DL_ENDIAN
+            -Dsecure_getenv=getenv
+            -DOPENSSL_IA32_SSE2
+            -DOPENSSL_BN_ASM_MONT
+            -DOPENSSL_BN_ASM_MONT5
+            -DOPENSSL_BN_ASM_GF2m
+            -DRC4_ASM
+            -DSHA1_ASM
+            -DSHA256_ASM
+            -DSHA512_ASM
+            -DMD5_ASM
+            -DAES_ASM
+            -DVPAES_ASM
+            -DBSAES_ASM
+            -DWHIRLPOOL_ASM
+            -DGHASH_ASM
+            -DECP_NISTZ256_ASM
+            -DOPENSSL_NO_RC5
+            -DOPENSSL_NO_MDC2
+            -DOPENSSL_NO_SSL2
+            -DOPENSSL_NO_SRP
+            -DOPENSSL_NO_KRB5
+            -DOPENSSL_NO_GOST
+            -DOPENSSL_NO_JPAKE
+            -DOPENSSL_NO_EC2M
+            -DOPENSSL_NO_WEAK_SSL_CIPHERS
+            -DOPENSSL_NO_DYNAMIC_ENGINE )
 else ( )
     message ( FATAL_ERROR "Unsupported toolchain: [${PROJECT_NAME}_TOOLCHAIN]" )
 endif ( )
@@ -457,7 +488,7 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
     set_source_files_properties ( ${CMAKE_CURRENT_BINARY_DIR}/sha256-x86_64.asm PROPERTIES GENERATED 1 )
 list ( APPEND ${PROJECT_NAME}_ASMOBJ ${CMAKE_CURRENT_BINARY_DIR}/sha256-x86_64.obj )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_[^_]+" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_gcc" )
     # special case for sha256
     add_custom_command ( OUTPUT sha256-x86_64.s
             COMMAND perl ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha512-x86_64.pl elf sha256-x86_64.s
@@ -467,6 +498,20 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_[^_]+" )
     list ( APPEND ${PROJECT_NAME}_ASMOBJ ${PROJECT_BINARY_DIR}/sha256-x86_64.s )
     add_custom_command ( OUTPUT sha512-x86_64.s
             COMMAND perl ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha512-x86_64.pl elf sha512-x86_64.s
+            WORKING_DIRECTORY ${PROJECT_BINARY_DIR} )
+    set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha512-x86_64.s PROPERTIES GENERATED 1 )
+    set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha512-x86_64.s PROPERTIES LANGUAGE C )
+    list ( APPEND ${PROJECT_NAME}_ASMOBJ ${PROJECT_BINARY_DIR}/sha512-x86_64.s )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "macosx_amd64_clang" )
+    # special case for sha256
+    add_custom_command ( OUTPUT sha256-x86_64.s
+            COMMAND perl ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha512-x86_64.pl macosx sha256-x86_64.s
+            WORKING_DIRECTORY ${PROJECT_BINARY_DIR} )
+    set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha256-x86_64.s PROPERTIES GENERATED 1 )
+    set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha256-x86_64.s PROPERTIES LANGUAGE C )
+    list ( APPEND ${PROJECT_NAME}_ASMOBJ ${PROJECT_BINARY_DIR}/sha256-x86_64.s )
+    add_custom_command ( OUTPUT sha512-x86_64.s
+            COMMAND perl ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha512-x86_64.pl macosx sha512-x86_64.s
             WORKING_DIRECTORY ${PROJECT_BINARY_DIR} )
     set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha512-x86_64.s PROPERTIES GENERATED 1 )
     set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha512-x86_64.s PROPERTIES LANGUAGE C )
@@ -729,13 +774,10 @@ set ( ${PROJECT_NAME}_CRYPTO_BN_SRC
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bn/bn_depr.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bn/bn_const.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bn/bn_x931p.c )
-if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "(windows_amd64_[^_]+|android_[^_]+_gcc)" )
     list ( APPEND ${PROJECT_NAME}_CRYPTO_BN_SRC
             ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bn/bn_asm.c )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
-    list ( APPEND ${PROJECT_NAME}_CRYPTO_BN_SRC
-            ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bn/bn_asm.c )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_gcc+" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "(linux_amd64_gcc|macosx_amd64_clang)" )
     list ( APPEND ${PROJECT_NAME}_CRYPTO_BN_SRC
             ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bn/asm/x86_64-gcc.c )
 endif ( ) 
