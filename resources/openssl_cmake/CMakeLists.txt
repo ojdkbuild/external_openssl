@@ -142,6 +142,7 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
             -DOPENSSL_THREADS
             -D_REENTRANT
             -DL_ENDIAN
+            -Dsecure_getenv=getenv
             -DOPENSSL_BN_ASM_MONT
             -DOPENSSL_BN_ASM_GF2m
             -DSHA1_ASM
@@ -353,6 +354,8 @@ set ( ${PROJECT_NAME}_CRYPTO_SRC
         # ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/fips_ers.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/o_init.c )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_SRC
+            ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/armcap.c )
     list ( APPEND ${PROJECT_NAME}_CRYPTO_SRC
             ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/armv4cpuid.S )
     set_source_files_properties ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/armv4cpuid.S PROPERTIES LANGUAGE C )
@@ -825,8 +828,11 @@ set ( ${PROJECT_NAME}_CRYPTO_EC_SRC
         # ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/ec/ecp_nistputil.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/ec/ecp_oct.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/ec/ec2_oct.c
-        ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/ec/ec_oct.c
-        ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/ec/ecp_nistz256.c )
+        ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/ec/ec_oct.c )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
+    list ( APPEND ${PROJECT_NAME}_CRYPTO_EC_SRC
+            ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/ec/ecp_nistz256.c )
+endif ( )
 list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_EC_SRC} )
 source_group ( "crypto_ec" FILES ${${PROJECT_NAME}_CRYPTO_EC_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
