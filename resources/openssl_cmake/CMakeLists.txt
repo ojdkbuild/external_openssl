@@ -53,7 +53,6 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_msvc" )
             -D_CRT_SECURE_NO_DEPRECATE
             -Dsecure_getenv=getenv
             -DEAI_SYSTEM=EAI_FAIL
-            -D_WIN32_WINNT=0x0501
             -Dstrcasestr=strstr
             -DOPENSSL_BN_ASM_PART_WORDS
             -DOPENSSL_IA32_SSE2
@@ -100,7 +99,6 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_msvc" )
             -D_CRT_SECURE_NO_DEPRECATE
             -Dsecure_getenv=getenv
             -DEAI_SYSTEM=EAI_FAIL
-            -D_WIN32_WINNT=0x0601
             -Dstrcasestr=strstr
             -DOPENSSL_IA32_SSE2
             -DOPENSSL_BN_ASM_MONT
