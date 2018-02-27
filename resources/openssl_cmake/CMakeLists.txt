@@ -161,6 +161,37 @@ elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
             -DOPENSSL_NO_EC2M
             -DOPENSSL_NO_WEAK_SSL_CIPHERS
             -DOPENSSL_NO_DYNAMIC_ENGINE )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_gcc" )
+    set ( ${PROJECT_NAME}_DEFINITIONS
+            -DOPENSSL_THREADS
+            -D_REENTRANT
+            -DL_ENDIAN
+            -Dsecure_getenv=getenv
+            -DOPENSSL_IA32_SSE2
+            -DOPENSSL_BN_ASM_MONT
+            -DOPENSSL_BN_ASM_MONT5
+            -DOPENSSL_BN_ASM_GF2m
+            -DRC4_ASM
+            -DSHA1_ASM
+            -DSHA256_ASM
+            -DSHA512_ASM
+            -DMD5_ASM
+            -DAES_ASM
+            -DVPAES_ASM
+            -DBSAES_ASM
+            -DWHIRLPOOL_ASM
+            -DGHASH_ASM
+            -DECP_NISTZ256_ASM
+            -DOPENSSL_NO_RC5
+            -DOPENSSL_NO_MDC2
+            -DOPENSSL_NO_SSL2
+            -DOPENSSL_NO_SRP
+            -DOPENSSL_NO_KRB5
+            -DOPENSSL_NO_GOST
+            -DOPENSSL_NO_JPAKE
+            -DOPENSSL_NO_EC2M
+            -DOPENSSL_NO_WEAK_SSL_CIPHERS
+            -DOPENSSL_NO_DYNAMIC_ENGINE )
 else ( )
     message ( FATAL_ERROR "Unsupported toolchain: [${PROJECT_NAME}_TOOLCHAIN]" )
 endif ( )
@@ -364,9 +395,7 @@ list ( APPEND ${PROJECT_NAME}_SRC ${${PROJECT_NAME}_CRYPTO_SRC} )
 source_group ( "crypto" FILES ${${PROJECT_NAME}_CRYPTO_SRC} )
 if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/x86cpuid.pl )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
-    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/x86_64cpuid.pl )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_[^_]+" )
+elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/x86_64cpuid.pl )
 endif ( )
 
@@ -412,7 +441,6 @@ if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_i386_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha512-586.pl )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha1-x86_64.pl )
-    openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha512-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha1-mb-x86_64.pl )
     openssl_asm_compile ( ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha256-mb-x86_64.pl )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
@@ -432,11 +460,17 @@ list ( APPEND ${PROJECT_NAME}_ASMOBJ ${CMAKE_CURRENT_BINARY_DIR}/sha256-x86_64.o
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "linux_amd64_[^_]+" )
     # special case for sha256
     add_custom_command ( OUTPUT sha256-x86_64.s
-            COMMAND perl ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha512-x86_64.pl elf > sha256-x86_64.s
+            COMMAND perl ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha512-x86_64.pl elf sha256-x86_64.s
             WORKING_DIRECTORY ${PROJECT_BINARY_DIR} )
     set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha256-x86_64.s PROPERTIES GENERATED 1 )
     set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha256-x86_64.s PROPERTIES LANGUAGE C )
     list ( APPEND ${PROJECT_NAME}_ASMOBJ ${PROJECT_BINARY_DIR}/sha256-x86_64.s )
+    add_custom_command ( OUTPUT sha512-x86_64.s
+            COMMAND perl ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/sha/asm/sha512-x86_64.pl elf sha512-x86_64.s
+            WORKING_DIRECTORY ${PROJECT_BINARY_DIR} )
+    set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha512-x86_64.s PROPERTIES GENERATED 1 )
+    set_source_files_properties ( ${PROJECT_BINARY_DIR}/sha512-x86_64.s PROPERTIES LANGUAGE C )
+    list ( APPEND ${PROJECT_NAME}_ASMOBJ ${PROJECT_BINARY_DIR}/sha512-x86_64.s )
 endif ( )
 
 # crypto/hmac
@@ -491,11 +525,7 @@ set ( ${PROJECT_NAME}_CRYPTO_DES_SRC
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/des/des_old.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/des/des_old2.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/des/read2pwd.c )
-if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
-    list ( APPEND ${PROJECT_NAME}_CRYPTO_DES_SRC
-            ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/des/des_enc.c
-            ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/des/fcrypt_b.c )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "([^_]+_amd64_[^_]+|android_[^_]+_gcc)" )
     list ( APPEND ${PROJECT_NAME}_CRYPTO_DES_SRC
             ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/des/des_enc.c
             ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/des/fcrypt_b.c )
@@ -550,7 +580,7 @@ set ( ${PROJECT_NAME}_CRYPTO_BF_SRC
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bf/bf_ecb.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bf/bf_cfb64.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bf/bf_ofb64.c )
-if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     list ( APPEND ${PROJECT_NAME}_CRYPTO_BF_SRC
             ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/bf/bf_enc.c )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
@@ -569,10 +599,7 @@ set ( ${PROJECT_NAME}_CRYPTO_CAST_SRC
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/cast/c_ecb.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/cast/c_cfb64.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/cast/c_ofb64.c )
-if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
-    list ( APPEND ${PROJECT_NAME}_CRYPTO_CAST_SRC
-            ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/cast/c_enc.c )
-elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "([^_]+_amd64_[^_]+|android_[^_]+_gcc)" )
     list ( APPEND ${PROJECT_NAME}_CRYPTO_CAST_SRC
             ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/cast/c_enc.c )
 endif ( ) 
@@ -622,7 +649,7 @@ set ( ${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/camellia/cmll_cfb.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/camellia/cmll_ctr.c
         ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/camellia/cmll_utl.c )
-if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "windows_amd64_[^_]+" )
+if ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "[^_]+_amd64_[^_]+" )
     list ( APPEND ${PROJECT_NAME}_CRYPTO_CAMELLIA_SRC
             ${${PROJECT_NAME}_LOOKASIDE_DIR}/crypto/camellia/cmll_misc.c )
 elseif ( ${PROJECT_NAME}_TOOLCHAIN MATCHES "android_[^_]+_gcc" )

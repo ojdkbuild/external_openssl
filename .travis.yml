@@ -14,17 +14,42 @@
 
 language: cpp
 
-sudo: false
+sudo: required
 
 os:
   - linux
+#  - osx
 
 before_install:
   - export CC=
   - export CXX=
+  - export D="docker exec fedora"
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    docker pull fedora ;
+    docker run -id --name fedora -v `pwd`/..:/src -w=/root fedora bash ;
+    fi
 
 install:
-  - git clone https://github.com/staticlibs/android-ndk-r9d-arm-linux-androideabi-4.8.git ../android-ndk
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
+
+    `# Ubuntu` ;
+    sudo apt-get -y install
+        g++
+        pkg-config
+        cmake
+        make;
+
+    `# Fedora` ;
+    $D dnf install -y
+        gcc-c++
+        pkg-config
+        cmake
+        make;
+
+    `# Android` ;
+    git clone https://github.com/staticlibs/android-ndk-r9d-arm-linux-androideabi-4.8.git ../android-ndk ;
+
+    fi
 
 before_script:
   - cd ..
@@ -34,10 +59,54 @@ before_script:
 
 script:
   - set -e
-  - mkdir build-android
-  - pushd build-android
-  - cmake ../external_openssl/test -DCMAKE_BUILD_TYPE=Release -DSTATICLIB_TOOLCHAIN=android_armeabi_gcc -DANDROID_TOOLCHAIN_DIR=`pwd`/../android-ndk
-  - make
+  - mkdir build-standalone
+  - mkdir build
+
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+
+    `# macOS` ;
+    set +e ;
+    pushd build-standalone ;
+    set -e ;
+    cmake ../external_openssl ;
+    make ;
+    set +e;
+    popd ;
+    pushd build ;
+    set -e ;
+    cmake ../external_openssl/test -DSTATICLIB_TOOLCHAIN=macosx_amd64_clang -DCMAKE_BUILD_TYPE=Release ;
+    make all test ;
+
+    fi
+
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+
+    `# Ubuntu` ;
+    lsb_release -a ;
+    pushd build-standalone ;
+    cmake ../external_openssl ;
+    make ;
+    popd ;
+    pushd build ;
+    cmake ../external_openssl/test -DCMAKE_BUILD_TYPE=Release ;
+    make all test ;
+    popd ;
+
+    `# Fedora` ;
+    $D cat /etc/fedora-release ;
+    $D cmake /src/external_openssl ;
+    $D make ;
+    $D sh -c "rm -rf /root && mkdir /root" ;
+    $D cmake /src/external_openssl/test -DCMAKE_BUILD_TYPE=Release ;
+    $D make all test ;
+
+    `# Android` ;
+    mkdir build-android ;
+    pushd build-android ;
+    cmake ../external_openssl/test -DCMAKE_BUILD_TYPE=Release -DSTATICLIB_TOOLCHAIN=android_armeabi_gcc -DANDROID_TOOLCHAIN_DIR=`pwd`/../android-ndk ;
+    make ;
+
+    fi
 
 notifications:
   email:
