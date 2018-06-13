@@ -47,7 +47,13 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 Changelog
 ---------
 
+**2018-06-13**
+
+ * version 1.0.2k-2
+ * April 2018 patches included
+
 **2018-02-27**
+
  * version 1.0.2k-1
  * linux support
  * macOS support
