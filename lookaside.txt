@@ -1,1 +1,1 @@
-https://github.com/staticlibs/lookaside_openssl/tree/fc929281f50beda5a6bdf6866de2819ee30a77ff
+https://github.com/staticlibs/lookaside_openssl/tree/419180898097a9f0942b897ce0ed655ebc2572b1

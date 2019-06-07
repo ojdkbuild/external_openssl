@@ -47,6 +47,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 Changelog
 ---------
 
+**2019-06-07**
+
+ * version 1.0.2k-4
+ * 2 new patches included
+
 **2019-01-07**
 
  * version 1.0.2k-3
